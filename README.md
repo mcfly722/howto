@@ -13,5 +13,5 @@ sudo apt install nano
 sudo docker run -d --restart=unless-stopped \
   -p 80:80 -p 443:443 \
   --privileged \
-  rancher/rancher:latest
+  rancher/rancher:v2.6.0
 ```
