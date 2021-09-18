@@ -9,4 +9,9 @@ sudo snap install docker
 sudo classic
 sudo apt install mc
 sudo apt install nano
+
+sudo docker run -d --restart=unless-stopped \
+  -p 80:80 -p 443:443 \
+  --privileged \
+  rancher/rancher:latest
 ```
