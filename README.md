@@ -13,6 +13,7 @@ sudo apt install nano
 
 sudo docker run -d --restart=unless-stopped \
   -p 80:80 \
+  -v /opt/rancher:/var/lib/rancher \
   --privileged \
   rancher/rancher:v2.6.0
 ```
