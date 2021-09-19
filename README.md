@@ -66,3 +66,15 @@ sudo docker run -d \
 
 sudo docker ps
 sudo docker logs <Container ID> 2>&1 | grep "Bootstrap Password:"
+```
+
+to clean node
+
+```
+sudo docker rm -f $(sudo docker ps -a -q)
+sudo docker rmi -f $(sudo docker images -q)
+sudo service docker stop
+sudo rm -rf /var/lib/docker
+sudo rm -rf /var/lib/rancher/state
+sudo service docker start
+```
