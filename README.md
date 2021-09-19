@@ -79,6 +79,8 @@ sudo rm -rf /var/lib/rancher/state
 sudo service docker start
 ```
 
+
+https://opensource.com/article/20/6/kubernetes-raspberry-pi
 # Enable net.bridge.bridge-nf-call-iptables and -iptables6
 ```
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
