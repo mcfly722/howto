@@ -54,7 +54,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 reboot
 
 sudo bash
-echo '{"iptables": false,"bridge": "none"}' > /etc/docker/daemon.json
+echo '{"bridge": "none"}' > /etc/docker/daemon.json
 
 
 sudo docker run -d \
