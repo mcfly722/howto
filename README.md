@@ -13,11 +13,10 @@ sudo apt install nano
 
 sudo echo 'dwc_otg.lpm_enable=0 console=serial0,115200 elevator=deadline rng_core.default_quality=700 vt.handoff=2 quiet splash cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory' > /run/mnt/ubuntu-seed/cmdline.txt
 
-sudo docker run \
-  --env CATTLE_BOOTSTRAP_PASSWORD=<!!!SPECIFY BOOTSTRAP PASSWORD HERE!!!> \
-  -d --restart=unless-stopped \
+sudo docker run -d --name rancher \
   -p 443:443 \
   -v /home/rancher:/var/lib/rancher \
   --privileged \
+  --restart=unless-stopped \
   rancher/rancher:v2.6.0
 ```
