@@ -4,7 +4,11 @@ Home cluster
 sudo hostnamectl set-hostname 'node1'
 
 sudo snap install classic --devmode --edge
+
 sudo snap install docker
+docker info
+# find Docker Root Dir and use it in new clusters creating
+
 sudo snap install curl
 
 sudo classic
