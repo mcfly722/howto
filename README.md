@@ -78,3 +78,13 @@ sudo rm -rf /var/lib/docker
 sudo rm -rf /var/lib/rancher/state
 sudo service docker start
 ```
+
+# Enable net.bridge.bridge-nf-call-iptables and -iptables6
+```
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+
+sudo sysctl --system
+```
