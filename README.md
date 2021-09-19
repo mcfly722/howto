@@ -1,22 +1,58 @@
 # k8scluster
 Home cluster
 ```
-sudo hostnamectl set-hostname 'node1'
+sudo hostnamectl set-hostname 'node<#>'
 
-sudo snap install classic --devmode --edge
+sudo adduser mcfly722
+sudo usermod -a -G admin mcfly722
 
-sudo snap install docker
-docker info
-# find Docker Root Dir and use it in new clusters creating
+sudo mkdir /home/mcfly722/.ssh
+sudo chown mcfly722 /home/mcfly722/.ssh
+sudo chgrp mcfly722 /home/mcfly722/.ssh
+sudo chmod 700 /home/mcfly722/.ssh
 
-sudo snap install curl
+sudo bash
+cd /home/mcfly722/.ssh/
+echo 'ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBEdHq09BV7XByoDXGD3sI/1KvrJR9LNLMsUq1zZtkx8rqiNSFDrUmoJXonzX3PmwKBM9cWqNDiC1zHeYP7nWCvg6wIH0msqc5KN6nU6zVv32szOV6TFNyMSYMMJDKITJ8g==  CAPI:0d8f679eb028d7d2cc39f7a9fdb53535c6e6407d E=7221798@gmail.com' > authorized_keys
+echo 'net.ifnames=0 dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory' > /boot/firmware/cmdline.txt
 
-sudo classic
+sudo chmod 600 authorized_keys
+sudo chown mcfly722 authorized_keys
+sudo chgrp mcfly722 authorized_keys
+
+echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
+echo 'mcfly722 ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+reboot
+
+sudo deluser --remove-home ubuntu
+
+sudo passwd root
+
 sudo apt install mc
-sudo apt install nano
 
-# from sudo bash
-sudo echo 'dwc_otg.lpm_enable=0 console=serial0,115200 elevator=deadline rng_core.default_quality=700 vt.handoff=2 quiet splash cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory' > /run/mnt/ubuntu-seed/cmdline.txt
+# install docker
+
+sudo apt-get update
+
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+echo \
+  "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+reboot
+
 
 sudo docker run -d \
   -p 443:443 \
@@ -24,4 +60,6 @@ sudo docker run -d \
   --privileged \
   --restart=unless-stopped \
   rancher/rancher:v2.6.0
-```
+
+sudo docker ps
+sudo docker logs <Container ID> 2>&1 | grep "Bootstrap Password:"
