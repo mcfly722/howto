@@ -57,10 +57,8 @@ start rancher container
 ```
 sudo docker run -d \
   -p 443:443 \
-  -v /home/rancher:/var/lib/rancher \
+  -v /var/lib/rancher:/var/lib/rancher \
   --privileged \
-  --net=none \
-  --label io.rancher.container.network=true \
   --restart=unless-stopped \
   rancher/rancher:v2.6.0
 ```
