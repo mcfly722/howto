@@ -76,8 +76,9 @@ sudo docker rm -f $(sudo docker ps -a -q)
 sudo docker rmi -f $(sudo docker images -q)
 sudo service docker stop
 sudo rm -rf /var/lib/docker
-sudo rm -rf /var/lib/rancher/state
+sudo rm -rf /var/lib/rancher
 sudo service docker start
+sudo rm -rf /etc/kubernetes
 ```
 
 
