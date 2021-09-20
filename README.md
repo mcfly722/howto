@@ -1,5 +1,5 @@
 # k8scluster
-Home cluster
+prepare Ubuntu 20.04 node
 ```
 sudo hostnamectl set-hostname 'node<#>'
 
@@ -23,16 +23,16 @@ sudo chgrp mcfly722 authorized_keys
 echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
 echo 'mcfly722 ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-reboot
+exit
 
 sudo deluser --remove-home ubuntu
 
 sudo passwd root
 
-sudo apt install mc
+```
 
-# install docker
-
+install docker
+```
 sudo apt-get update
 
 sudo apt-get install \
@@ -51,16 +51,16 @@ echo \
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 
-reboot
+```
 
-sudo bash
-echo '{"bridge": "none"}' > /etc/docker/daemon.json
-
-
+start rancher container
+```
 sudo docker run -d \
   -p 443:443 \
   -v /home/rancher:/var/lib/rancher \
   --privileged \
+  --net=none \
+  --label io.rancher.container.network=true \
   --restart=unless-stopped \
   rancher/rancher:v2.6.0
 
