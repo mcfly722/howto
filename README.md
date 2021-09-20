@@ -63,7 +63,10 @@ sudo docker run -d \
   --label io.rancher.container.network=true \
   --restart=unless-stopped \
   rancher/rancher:v2.6.0
+```
 
+to get bootstrap Rancher Password
+```
 sudo docker ps
 sudo docker logs <Container ID> 2>&1 | grep "Bootstrap Password:"
 ```
