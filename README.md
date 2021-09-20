@@ -75,10 +75,29 @@ to clean node
 sudo docker rm -f $(sudo docker ps -a -q)
 sudo docker rmi -f $(sudo docker images -q)
 sudo service docker stop
-sudo rm -rf /var/lib/docker
-sudo rm -rf /var/lib/rancher
+
+sudo rm -rf /etc/ceph \
+       /etc/cni \
+       /etc/kubernetes \
+       /opt/cni \
+       /opt/rke \
+       /run/secrets/kubernetes.io \
+       /run/calico \
+       /run/flannel \
+       /var/lib/calico \
+       /var/lib/etcd \
+       /var/lib/docker \
+       /var/lib/rancher \
+       /var/lib/cni \
+       /var/lib/kubelet \
+       /var/lib/rancher/rke/log \
+       /var/log/containers \
+       /var/log/kube-audit \
+       /var/log/pods \
+       /var/run/calico
+
 sudo service docker start
-sudo rm -rf /etc/kubernetes
+       
 ```
 
 
