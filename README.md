@@ -72,8 +72,11 @@ sudo docker logs <Container ID> 2>&1 | grep "Bootstrap Password:"
 to clean node
 
 ```
+sudo docker stop $(sudo docker ps -aq)
+sudo docker system prune -f
+sudo docker volume rm $(sudo docker volume ls -q)
+sudo docker image rm $(sudo docker image ls -q)
 sudo docker rm -f $(sudo docker ps -a -q)
-sudo docker rmi -f $(sudo docker images -q)
 sudo service docker stop
 
 sudo rm -rf /etc/ceph \
