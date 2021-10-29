@@ -60,7 +60,7 @@ sudo docker run -d \
   -v /var/lib/rancher:/var/lib/rancher \
   --privileged \
   --restart=unless-stopped \
-  rancher/rancher:v2.6.0
+  rancher/rancher:v2.4.15
 ```
 
 to get bootstrap Rancher Password
