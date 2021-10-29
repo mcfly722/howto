@@ -56,7 +56,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 start rancher container
 ```
 sudo docker run -d \
-  -p 443:443 \
+  -p 8443:443 \
   -v /var/lib/rancher:/var/lib/rancher \
   --privileged \
   --restart=unless-stopped \
