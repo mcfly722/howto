@@ -60,7 +60,6 @@ sudo docker run -d \
   -v /opt/rancher:/var/lib/rancher \
   -v /opt/kubernetes/ssl:/var/lib/kubernetes/ssl \
   -e SSL_CERT_DIR="/var/lib/kubernetes/ssl" \
-  --privileged \
   --restart=unless-stopped \
   -e AUDIT_LEVEL=3 \
   rancher/rancher:v2.4.15
