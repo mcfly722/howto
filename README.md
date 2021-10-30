@@ -119,5 +119,4 @@ sudo service docker start
 to rancher download images manually
 ```
 sudo docker pull rancher/coreos-etcd:v3.4.15-rancher1
-rancher/rancher-agent:v2.4.15
 ```
