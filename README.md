@@ -75,6 +75,12 @@ sudo apt install mc
 sudo apt install net-tools
 ```
 
+stop napd service
+```
+sudo systemctl stop snapd.service
+sudo systemctl disable snapd.service
+```
+
 to clean node
 
 ```
