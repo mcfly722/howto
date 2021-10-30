@@ -101,6 +101,8 @@ sudo rm -rf /etc/ceph \
        /etc/kubernetes \
        /opt/cni \
        /opt/rke \
+       /opt/kubernetes/ssl \
+       /opt/rancher \
        /run/secrets/kubernetes.io \
        /run/calico \
        /run/flannel \
