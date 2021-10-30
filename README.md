@@ -69,6 +69,12 @@ sudo docker ps
 sudo docker logs <Container ID> 2>&1 | grep "Bootstrap Password:"
 ```
 
+to install tools
+```
+sudo apt install mc
+sudo apt install net-tools
+```
+
 to clean node
 
 ```
