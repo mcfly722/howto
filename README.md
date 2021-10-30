@@ -60,6 +60,7 @@ sudo docker run -d \
   -v /opt/rancher:/var/lib/rancher \
   --restart=unless-stopped \
   -e AUDIT_LEVEL=3 \
+  -e NO_PROXY="localhost,127.0.0.1,0.0.0.0,192.168.0.0/24" \
   rancher/rancher:v2.4.15
 ```
 
