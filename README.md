@@ -59,7 +59,7 @@ sudo docker run -d \
   -p 8080:80 -p 8443:443 \
   -v /opt/rancher/db:/var/lib/rancher \
   -v /opt/rancher/auditlog:/var/log/auditlog \
-  -e AUDIT_LEVEL=3 \
+  -e AUDIT_LEVEL=1 \
   -e NO_PROXY="localhost,127.0.0.1,0.0.0.0,192.168.0.0/24" \
   --restart=unless-stopped \
   rancher/rancher:v2.4.15
