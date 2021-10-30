@@ -121,4 +121,5 @@ sudo service docker start
 to rancher download images manually
 ```
 sudo docker pull rancher/coreos-etcd:v3.4.15-rancher1
+sudo docker pull rancher/rke-tools:v0.1.75
 ```
