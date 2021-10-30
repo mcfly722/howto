@@ -73,10 +73,12 @@ to install tools
 ```
 sudo apt install mc
 sudo apt install net-tools
+sudo apt install nethogs
 ```
 
 stop napd service
 ```
+sudo systemctl mask snapd.service
 sudo systemctl stop snapd.service
 sudo systemctl disable snapd.service
 ```
