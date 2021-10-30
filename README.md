@@ -58,8 +58,6 @@ start rancher container
 sudo docker run -d \
   -p 8080:80 -p 8443:443 \
   -v /opt/rancher:/var/lib/rancher \
-  -v /opt/kubernetes/ssl:/var/lib/kubernetes/ssl \
-  -e SSL_CERT_DIR="/var/lib/kubernetes/ssl" \
   --restart=unless-stopped \
   -e AUDIT_LEVEL=3 \
   rancher/rancher:v2.4.15
