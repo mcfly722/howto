@@ -1,4 +1,4 @@
-# k8scluster
+a# k8scluster
 prepare Ubuntu 20.04 node
 ```
 sudo hostnamectl set-hostname 'node<#>'
