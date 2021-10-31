@@ -28,6 +28,19 @@ https://back2basics.io/2020/04/setup-a-prometheus-node-exporter-on-ubuntu-18-04-
 ```
 
 Deploy Grafana
+
+run initial container
+```
+sudo docker run grafana/grafana:6.5.0 
+```
+
+copy /etc/grafana to /opt to node
+```
+sudo docker cp <containerID>:/etc/grafana /opt/
+sudo docker stop <containerID>
+```
+
+start container
 ```
 sudo docker run -d -p 3000:3000 --name grafana -v /opt/grafana:/etc/grafana --restart=always grafana/grafana:6.5.0 
 ```
