@@ -29,7 +29,7 @@ https://back2basics.io/2020/04/setup-a-prometheus-node-exporter-on-ubuntu-18-04-
 
 Deploy Grafana
 ```
-sudo docker run -d -p 3000:3000 --name grafana --restart=always grafana/grafana:6.5.0 
+sudo docker run -d -p 3000:3000 --name grafana -v /opt/grafana:/etc/grafana --restart=always grafana/grafana:6.5.0 
 ```
 default grafana login: admin/admin
 
