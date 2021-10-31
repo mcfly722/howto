@@ -38,6 +38,7 @@ copy /etc/grafana to /opt to node
 ```
 sudo docker cp <containerID>:/var/lib/grafana /opt
 sudo docker stop <containerID>
+sudo chown 472:472 --recursive /opt/grafana
 ```
 
 start container
