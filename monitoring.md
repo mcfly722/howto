@@ -10,7 +10,7 @@ curl https://raw.githubusercontent.com/prometheus/prometheus/main/documentation/
 exit
 
 
-sudo docker run -d -p 9090:9090 -v /opt/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml --restart=unless-stopped prom/prometheus
+sudo docker run -d -p 9090:9090 -v /opt/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml --restart=always prom/prometheus
 ```
 
 Add prometheus targets
@@ -29,7 +29,7 @@ https://back2basics.io/2020/04/setup-a-prometheus-node-exporter-on-ubuntu-18-04-
 
 Deploy Grafana
 ```
-docker run -d -p 3000:3000 --name grafana grafana/grafana:6.5.0 --restart=unless-stopped 
+sudo docker run -d -p 3000:3000 --name grafana --restart=always grafana/grafana:6.5.0 
 ```
 default grafana login: admin/admin
 
