@@ -10,7 +10,7 @@ rename node<br>
 ```
 sudo hostnamectl set-hostname 'master'
 ```
-## add mcfly722 new user
+## add new user (mcfly722)
 ```
 sudo adduser mcfly722
 sudo usermod -a -G admin mcfly722
@@ -101,6 +101,7 @@ install k8s cluster
 ```
 sudo kubeadm init
 ```
+---
 
 start rancher container
 ```
