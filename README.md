@@ -108,7 +108,7 @@ sudo swapoff -a
 ```
 install k8s cluster
 ```
-sudo kubeadm init
+sudo kubeadm init --pod-network-cidr 10.244.0.0/16
 ```
 save k8s config
 ```
