@@ -1,8 +1,17 @@
 # k8scluster
-prepare Ubuntu 22.04 LTS (RPI ZERO 2/3/4/400) X64 node
+prepare Ubuntu 22.04 LTS (RPI ZERO 2/3/4/400) X64 node<br>
+<br>
+
+logon to installed image with ubuntu:ubuntu<br>
+change default password<br>
+logon again, but through ssh<br>
+<br>
+rename node<br>
 ```
 sudo hostnamectl set-hostname 'master'
-
+```
+add mcfly722 new user
+```
 sudo adduser mcfly722
 sudo usermod -a -G admin mcfly722
 
@@ -10,7 +19,9 @@ sudo mkdir /home/mcfly722/.ssh
 sudo chown mcfly722 /home/mcfly722/.ssh
 sudo chgrp mcfly722 /home/mcfly722/.ssh
 sudo chmod 700 /home/mcfly722/.ssh
-
+```
+install mcfly722 public ssh key
+```
 sudo bash
 cd /home/mcfly722/.ssh/
 echo 'ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBEdHq09BV7XByoDXGD3sI/1KvrJR9LNLMsUq1zZtkx8rqiNSFDrUmoJXonzX3PmwKBM9cWqNDiC1zHeYP7nWCvg6wIH0msqc5KN6nU6zVv32szOV6TFNyMSYMMJDKITJ8g==  CAPI:0d8f679eb028d7d2cc39f7a9fdb53535c6e6407d E=7221798@gmail.com' > authorized_keys
@@ -23,12 +34,12 @@ sudo chgrp mcfly722 authorized_keys
 echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
 echo 'mcfly722 ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-exit
-
-sudo deluser --remove-home ubuntu
-
 sudo passwd root
-
+exit
+```
+delete ubuntu user
+```
+sudo deluser --remove-home ubuntu
 ```
 install required tools
 
