@@ -64,7 +64,37 @@ echo \
 
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
-
+```
+add k8s key
+```
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+```
+add k8s repo
+```
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+```
+install k8s tools
+```
+sudo apt install kubeadm kubelet kubectl kubernetes-cni
+```
+disable swap
+```
+sudo swapoff -a
+```
+configure containerd
+```
+cat > /etc/containerd/config.toml << EOF
+[plugins. " io.containerd.grpc.v1.cri " ]
+systemd_cgroup = true 
+EOF
+```
+restart containerd
+```
+systemctl restart containerd
+```
+install k8s cluster
+```
+sudo kubeadm init
 ```
 
 start rancher container
