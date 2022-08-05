@@ -10,7 +10,7 @@ rename node<br>
 ```
 sudo hostnamectl set-hostname 'master'
 ```
-add mcfly722 new user
+## add mcfly722 new user
 ```
 sudo adduser mcfly722
 sudo usermod -a -G admin mcfly722
@@ -20,7 +20,6 @@ sudo chown mcfly722 /home/mcfly722/.ssh
 sudo chgrp mcfly722 /home/mcfly722/.ssh
 sudo chmod 700 /home/mcfly722/.ssh
 ```
-install mcfly722 public ssh key
 ```
 sudo bash
 cd /home/mcfly722/.ssh/
@@ -41,8 +40,9 @@ delete ubuntu user
 ```
 sudo deluser --remove-home ubuntu
 ```
-install required tools
+## install docker
 
+install required tools
 ```
 sudo apt-get update
 
@@ -51,9 +51,8 @@ sudo apt-get install \
     ca-certificates \
     curl \
     gnupg \
-    lsb-release
+    lsb-release    
 ```
-install docker
 
 ```
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -65,6 +64,23 @@ echo \
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
+logon as root
+```
+su -
+```
+configure containerd (under root)
+```
+cat > /etc/containerd/config.toml << EOF
+[plugins. " io.containerd.grpc.v1.cri " ]
+systemd_cgroup = true 
+EOF
+```
+restart containerd (under root)
+```
+systemctl restart containerd
+```
+## install k8s cluster
+
 add k8s key
 ```
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
@@ -80,22 +96,6 @@ sudo apt install kubeadm kubelet kubectl kubernetes-cni
 disable swap
 ```
 sudo swapoff -a
-```
-
-logon as root
-```
-su -
-```
-configure containerd (under root)
-```
-cat > /etc/containerd/config.toml << EOF
-[plugins. " io.containerd.grpc.v1.cri " ]
-systemd_cgroup = true 
-EOF
-```
-restart containerd (under root)
-```
-systemctl restart containerd
 ```
 install k8s cluster
 ```
