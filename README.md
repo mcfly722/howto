@@ -125,6 +125,12 @@ sudo chown mcfly722:mcfly722 /home/mcfly722/.kube/config
 ```
 reboot
 ```
+
+## install canal
+```
+curl https://projectcalico.docs.tigera.io/manifests/canal.yaml -O
+kubectl apply -f canal.yaml
+```
 ---
 
 start rancher container
