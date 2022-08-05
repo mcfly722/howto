@@ -30,8 +30,8 @@ sudo deluser --remove-home ubuntu
 sudo passwd root
 
 ```
+install required tools
 
-install docker
 ```
 sudo apt-get update
 
@@ -41,7 +41,10 @@ sudo apt-get install \
     curl \
     gnupg \
     lsb-release
+```
+install docker
 
+```
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 echo \
