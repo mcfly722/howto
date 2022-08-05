@@ -1,5 +1,5 @@
 # k8scluster
-prepare Ubuntu 20.04 node
+prepare Ubuntu 22.04 LTS (RPI ZERO 2/3/4/400) X64 node
 ```
 sudo hostnamectl set-hostname 'master'
 
