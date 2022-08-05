@@ -40,6 +40,15 @@ delete ubuntu user
 ```
 sudo deluser --remove-home ubuntu
 ```
+
+## install tools
+
+```
+sudo apt install mc
+sudo apt install net-tools
+sudo apt install nethogs
+```
+
 ## install docker
 
 install required tools
