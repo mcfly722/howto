@@ -109,6 +109,10 @@ disable swap
 ```
 sudo swapoff -a
 ```
+cgroups configuration
+```
+sudo echo group_enable=memory cgroup_memory=1 >> /boot/firmware/cmdline.txt
+```
 install k8s cluster
 ```
 sudo kubeadm init --pod-network-cidr 10.244.0.0/16
