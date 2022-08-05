@@ -134,6 +134,7 @@ kubectl apply -f canal.yaml
 add worker role to master to run pods on it
 ```
 kubectl label node master node-role.kubernetes.io/worker=worker
+kubectl taint nodes master node-role.kubernetes.io/control-plane-
 ```
 ---
 
