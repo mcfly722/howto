@@ -81,14 +81,19 @@ disable swap
 ```
 sudo swapoff -a
 ```
-configure containerd
+
+logon as root
+```
+su -
+```
+configure containerd (under root)
 ```
 cat > /etc/containerd/config.toml << EOF
 [plugins. " io.containerd.grpc.v1.cri " ]
 systemd_cgroup = true 
 EOF
 ```
-restart containerd
+restart containerd (under root)
 ```
 systemctl restart containerd
 ```
