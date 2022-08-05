@@ -1,7 +1,7 @@
-a# k8scluster
+# k8scluster
 prepare Ubuntu 20.04 node
 ```
-sudo hostnamectl set-hostname 'node<#>'
+sudo hostnamectl set-hostname 'master'
 
 sudo adduser mcfly722
 sudo usermod -a -G admin mcfly722
