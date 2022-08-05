@@ -101,6 +101,17 @@ install k8s cluster
 ```
 sudo kubeadm init
 ```
+save k8s config
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+```
+mkdir -p /home/mcfly722/.kube
+sudo cp -i /etc/kubernetes/admin.conf /home/mcfly722/.kube/config
+sudo chown mcfly722:mcfly722 /home/mcfly722/.kube/config
+```
 ---
 
 start rancher container
