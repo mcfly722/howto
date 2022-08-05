@@ -33,12 +33,15 @@ sudo chgrp mcfly722 authorized_keys
 echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
 echo 'mcfly722 ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-sudo passwd root
 exit
 ```
-delete ubuntu user
+logon as mcfly and delete ubuntu user
 ```
 sudo deluser --remove-home ubuntu
+```
+change root password
+```
+sudo passwd root
 ```
 
 ## install tools
