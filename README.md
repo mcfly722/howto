@@ -83,10 +83,10 @@ metadata:
 data:
   config: |
     address-pools:
-    - name: default
+    - name: ingress-ip-pool
       protocol: layer2
       addresses:
-      - 192.168.0.201-192.168.0.210
+      - 192.168.0.201/32
 EOT
 ```
 ```
@@ -97,6 +97,8 @@ kubectl apply -f metallb.yaml
 wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/baremetal/deploy.yaml -O nginx-deploy.yaml
 sed -i 's/type: NodePort/type: LoadBalancer/' nginx-deploy.yaml
 kubectl apply -f nginx-deploy.yaml
+kubectl annotate service ingress-nginx-controller -n ingress-nginx --overwrite metallb.universe.tf/address-pool=ingress-ip-pool
+
 ```
 
 ## install cert manager
