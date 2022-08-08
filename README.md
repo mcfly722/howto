@@ -58,7 +58,35 @@ sudo apt install linux-modules-extra-raspi && reboot
 ## install k3s
 ```
 curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s -
+
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 ```
+## install helm
+https://helm.sh/docs/intro/install/
+```
+curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+sudo apt-get install apt-transport-https --yes
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+```
+
+## install cert manager
+https://rancher.com/docs/rancher/v2.5/en/installation/other-installation-methods/behind-proxy/install-rancher/
+```
+helm repo add jetstack https://charts.jetstack.io
+
+kubectl create namespace cert-manager
+
+kubectl apply --validate=false -f https://github.com/cert-manager/cert-manager/releases/download/v1.5.1/cert-manager.crds.yaml
+
+helm repo update
+
+helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.5.1
+  
+```
+
+---
 
 ## install docker
 
