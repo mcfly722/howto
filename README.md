@@ -83,10 +83,10 @@ metadata:
 data:
   config: |
     address-pools:
-    - name: ingress-ip-pool
+    - name: default
       protocol: layer2
       addresses:
-      - 192.168.0.201/32
+      - 192.168.0.200-192.168.0.210
 EOT
 ```
 ```
@@ -104,7 +104,7 @@ metadata:
   name: ingress-nginx-controller-loadbalancer
   namespace: ingress-nginx
   annotations:
-    metallb.universe.tf/address-pool: ingress-ip-pool
+    metallb.universe.tf/address-pool: default
 spec:
   selector:
     app.kubernetes.io/component: controller
@@ -120,6 +120,7 @@ spec:
       protocol: TCP
       targetPort: 443
   type: LoadBalancer
+  loadBalancerIP: 192.168.0.201
 EOT
 ```
 ```
