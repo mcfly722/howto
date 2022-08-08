@@ -96,7 +96,35 @@ kubectl apply -f metallb.yaml
 ```
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/baremetal/deploy.yaml
 ```
-
+```
+cat <<EOT >> ingress-controller-load-balancer.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-nginx-controller-loadbalancer
+  namespace: ingress-nginx
+  annotations:
+    metallb.universe.tf/address-pool: ingress-ip-pool
+spec:
+  selector:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+  type: LoadBalancer
+EOT 
+```
+```
+kubectl apply -f ingress-controller-load-balancer.yaml
+```
 ## install cert manager
 https://rancher.com/docs/rancher/v2.5/en/installation/other-installation-methods/behind-proxy/install-rancher/
 ```
