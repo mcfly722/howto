@@ -1,8 +1,11 @@
 # k8scluster
-prepare Ubuntu 22.04 LTS (RPI ZERO 2/3/4/400) X64 node<br>
+download and install Raspberry Pi Imager
+https://www.raspberrypi.com/software/
+
+Write <b>Ubuntu 22.04 LTS (RPI ZERO 2/3/4/400) X64</b> image on sd-card and put it to <b>Raspberry 4B</b><br>
 <br>
 
-logon to installed image with ubuntu:ubuntu<br>
+logon to installed image with <b>ubuntu:ubuntu</b><br>
 change default password<br>
 logon again, but through ssh<br>
 <br>
@@ -19,6 +22,7 @@ sudo mkdir /home/mcfly722/.ssh
 sudo chown mcfly722 /home/mcfly722/.ssh
 sudo chgrp mcfly722 /home/mcfly722/.ssh
 sudo chmod 700 /home/mcfly722/.ssh
+exit
 ```
 ```
 sudo bash
@@ -44,13 +48,6 @@ change root password
 sudo passwd root
 ```
 
-## install tools
-
-```
-sudo apt install mc
-sudo apt install net-tools
-sudo apt install nethogs
-```
 ## add vxlan support 
 ```
 sudo apt install linux-modules-extra-raspi && reboot
@@ -101,6 +98,13 @@ helm install rancher rancher-latest/rancher \
 ```
 
 ---
+## install tools
+
+```
+sudo apt install mc
+sudo apt install net-tools
+sudo apt install nethogs
+```
 
 ## install docker
 
