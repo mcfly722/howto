@@ -104,6 +104,13 @@ kind: Service
 metadata:
   annotations:
     metallb.universe.tf/address-pool: ingress-ip-pool
+  labels:
+    helm.sh/chart: ingress-nginx-3.33.0
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/version: 0.47.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: controller
   name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
@@ -119,9 +126,9 @@ spec:
       protocol: TCP
       targetPort: https
   selector:
-    app.kubernetes.io/component: controller
-    app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/component: controller
 EOT
 ```
 kubectl apply -f ingress-nginx-controller-service.yaml
