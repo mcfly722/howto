@@ -51,6 +51,14 @@ sudo apt install mc
 sudo apt install net-tools
 sudo apt install nethogs
 ```
+## add vxlan support 
+```
+sudo apt install linux-modules-extra-raspi && reboot
+```
+## install k3s
+```
+curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s -
+```
 
 ## install docker
 
