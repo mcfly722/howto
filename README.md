@@ -86,7 +86,7 @@ data:
       protocol: layer2
       addresses:
       - 192.168.0.201-192.168.0.210
-EOT      
+EOT
 
 kubectl apply -f metallb.yaml
 
