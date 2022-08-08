@@ -85,6 +85,20 @@ helm repo update
 helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.5.1
   
 ```
+## install rancher
+
+```
+kubectl create namespace cattle-system
+
+helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
+
+helm install rancher rancher-latest/rancher \
+  --namespace cattle-system \
+  --set hostname=59FF44DD.nip.io
+  
+
+
+```
 
 ---
 
