@@ -74,7 +74,7 @@ sudo apt-get install helm
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.4/config/manifests/metallb-native.yaml
 ```
 ```
-cat <<EOT >> metallb.yaml
+cat <<EOT > metallb.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -97,7 +97,7 @@ kubectl apply -f metallb.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/baremetal/deploy.yaml
 ```
 ```
-cat <<EOT >> ingress-controller-load-balancer.yaml
+cat <<EOT > ingress-controller-load-balancer.yaml
 apiVersion: v1
 kind: Service
 metadata:
