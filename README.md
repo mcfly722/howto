@@ -82,10 +82,10 @@ metadata:
 data:
   config: |
     address-pools:
-    - name: default
+    - name: ingress-ip-pool
       protocol: layer2
       addresses:
-      - 192.168.0.201-192.168.0.210
+      - 192.168.0.201/32
 EOT
 
 kubectl apply -f metallb.yaml
