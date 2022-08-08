@@ -120,7 +120,7 @@ spec:
       protocol: TCP
       targetPort: 443
   type: LoadBalancer
-EOT 
+EOT
 ```
 ```
 kubectl apply -f ingress-controller-load-balancer.yaml
