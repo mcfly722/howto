@@ -72,7 +72,8 @@ sudo apt-get install helm
 ## install metallb
 ```
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.4/config/manifests/metallb-native.yaml
-
+```
+```
 cat <<EOT >> metallb.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -87,9 +88,9 @@ data:
       addresses:
       - 192.168.0.201/32
 EOT
-
+```
+```
 kubectl apply -f metallb.yaml
-
 ```
 ## install ingress controller
 ```
