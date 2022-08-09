@@ -72,8 +72,10 @@ sudo apt-get install helm
 ## install metallb
 (https://metallb.universe.tf/installation/#installation-with-helm)
 ```
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.4/config/manifests/metallb-native.yaml
+helm repo add metallb https://metallb.github.io/metallb
+helm install --namespace metallb-system --create-namespace metallb metallb/metallb
 ```
+## add metallb ip pool for ingress-controller
 ```
 cat <<EOT > metallb-IPAddressPool.yaml
 apiVersion: metallb.io/v1beta1
@@ -90,7 +92,11 @@ EOT
 kubectl apply -f metallb-IPAddressPool.yaml
 ```
 ## install ingress controller
+(https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/)
 ```
+helm install --namespace ingress-nginx --create-namespace ingress-nginx nginx-stable/nginx-ingress -set controller.service.annotations."metallb\.universe\.tf/address-pool"=ingress-ip-pool
+
+
 wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/baremetal/deploy.yaml -O nginx-deploy.yaml
 sed -i 's/type: NodePort/type: LoadBalancer/' nginx-deploy.yaml
 kubectl apply -f nginx-deploy.yaml
