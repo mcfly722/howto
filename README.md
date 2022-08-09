@@ -56,7 +56,7 @@ sudo apt install linux-modules-extra-raspi && reboot
 ```
 ## install k3s
 ```
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--no-deploy traefik" sh -s -
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--no-deploy traefik,servicelb" sh -s -
 
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 ```
