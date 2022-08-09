@@ -74,23 +74,19 @@ sudo apt-get install helm
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.4/config/manifests/metallb-native.yaml
 ```
 ```
-cat <<EOT > metallb.yaml
-apiVersion: v1
-kind: ConfigMap
+cat <<EOT > metallb-IPAddressPool.yaml
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
 metadata:
+  name: ingress-ip-pool
   namespace: metallb-system
-  name: config
-data:
-  config: |
-    address-pools:
-    - name: ingress-ip-pool
-      protocol: layer2
-      addresses:
-      - 192.168.0.201/32
+spec:
+  addresses:
+  - 192.168.0.201/32
 EOT
 ```
 ```
-kubectl apply -f metallb.yaml
+kubectl apply -f metallb-IPAddressPool.yaml
 ```
 ## install ingress controller
 ```
@@ -104,13 +100,6 @@ kind: Service
 metadata:
   annotations:
     metallb.universe.tf/address-pool: ingress-ip-pool
-  labels:
-    helm.sh/chart: ingress-nginx-3.33.0
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.47.0
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/component: controller
   name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
