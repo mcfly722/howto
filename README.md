@@ -70,6 +70,7 @@ sudo apt-get update
 sudo apt-get install helm
 ```
 ## install metallb
+(https://metallb.universe.tf/installation/#installation-with-helm)
 ```
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.4/config/manifests/metallb-native.yaml
 ```
