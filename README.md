@@ -94,9 +94,14 @@ kubectl apply -f metallb-IPAddressPool.yaml
 ## install ingress controller
 (https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/)
 ```
-helm install --namespace ingress-nginx --create-namespace ingress-nginx nginx-stable/nginx-ingress -set controller.service.annotations."metallb\.universe\.tf/address-pool"=ingress-ip-pool
+helm install \
+ --namespace ingress-nginx \
+ --create-namespace \
+ --set controller.service.annotations."metallb\.universe\.tf/address-pool"=ingress-ip-pool \
+ ingress-nginx nginx-stable/nginx-ingress 
+```
 
-
+```
 wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/baremetal/deploy.yaml -O nginx-deploy.yaml
 sed -i 's/type: NodePort/type: LoadBalancer/' nginx-deploy.yaml
 kubectl apply -f nginx-deploy.yaml
