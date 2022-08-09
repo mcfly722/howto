@@ -105,40 +105,6 @@ helm install \
  ingress-nginx nginx-stable/nginx-ingress 
 ```
 
-```
-wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/baremetal/deploy.yaml -O nginx-deploy.yaml
-sed -i 's/type: NodePort/type: LoadBalancer/' nginx-deploy.yaml
-kubectl apply -f nginx-deploy.yaml
-
-cat <<EOT >ingress-nginx-controller-service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    metallb.universe.tf/address-pool: ingress-ip-pool
-  name: ingress-nginx-controller
-  namespace: ingress-nginx
-spec:
-  type: LoadBalancer
-  externalTrafficPolicy: Local
-  ports:
-    - name: http
-      port: 80
-      protocol: TCP
-      targetPort: http
-    - name: https
-      port: 443
-      protocol: TCP
-      targetPort: https
-  selector:
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/component: controller
-EOT
-```
-kubectl apply -f ingress-nginx-controller-service.yaml
-
-```
 
 ## install cert manager
 https://rancher.com/docs/rancher/v2.5/en/installation/other-installation-methods/behind-proxy/install-rancher/
