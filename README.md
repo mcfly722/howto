@@ -71,8 +71,8 @@ sudo apt install linux-modules-extra-raspi && sudo reboot
 ## install k3s
 ```
 export K3S_KUBECONFIG_MODE="644"
-export INSTALL_K3S_EXEC=" --disable servicelb --disable traefik"
- 
+export INSTALL_K3S_EXEC="--disable-network-policy --cluster-cidr=10.1.0.0/16 --service-cidr=10.0.0.0/16 --kube-proxy-arg=proxy-mode=ipvs --kube-proxy-arg=ipvs-strict-arp --disable=traefik --disable=servicelb --disable=local-storage"
+
 curl -sfL https://get.k3s.io | sh -
 
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
@@ -96,6 +96,11 @@ kubectl label namespace metallb-system pod-security.kubernetes.io/enforce=privil
 kubectl label namespace metallb-system pod-security.kubernetes.io/audit=privileged
 kubectl label namespace metallb-system pod-security.kubernetes.io/warn=privileged
 
+sudo ufw allow 6443/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 80/tcp
+
+sudo ip link set eth0 promisc on
 ```
 ## add metallb ip pool for ingress-controller
 ```
