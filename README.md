@@ -17,7 +17,7 @@ sudo hostnamectl set-hostname 'master'
 ```
 cat <<EOT > /etc/netplan/50-cloud-init.yaml
 network:
-  version:2
+  version: 2
   ethernets:
     eth0:
       dhcp4: no
