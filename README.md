@@ -13,6 +13,20 @@ rename node<br>
 ```
 sudo hostnamectl set-hostname 'master'
 ```
+## specify static ip
+```
+cat <<EOT > /etc/netplan/50-cloud-init.yaml
+network:
+  version:2
+  ethernets:
+    eth0:
+      dhcp4: no
+      addresses: [192.168.0.200/24]
+      gateway4: 192.168.0.1
+      nameservers:
+        addresses: [192.168.0.1, 8.8.8.8]
+EOT
+```
 ## add new user (mcfly722)
 ```
 sudo adduser mcfly722
