@@ -123,18 +123,13 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 
 helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.7.1
 ```
-### create namespace
-```
-kubectl create namespace cattle-system
-```
-
 ### install rancher
 ```
 helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 
-helm install rancher rancher-latest/rancher \
-  --namespace cattle-system \
-  --set hostname=59FF44DD.nip.io
+kubectl create namespace cattle-system
+
+helm upgrade --install rancher rancher-latest/rancher --namespace cattle-system
 ```
 
 
