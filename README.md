@@ -113,8 +113,6 @@ kubectl apply -f metallb-IPAddressPool.yaml
 ```
 helm repo add nginx-stable https://helm.nginx.com/stable
 
-helm repo update
-
 helm install \
  --namespace ingress-nginx \
  --create-namespace \
