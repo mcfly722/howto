@@ -109,12 +109,16 @@ helm install \
  --set controller.service.annotations."metallb\.universe\.tf/address-pool"=ingress-ip-pool \
  ingress-nginx nginx-stable/nginx-ingress 
 ```
-## create namespace for Rancher
+
+## install Rancher
+https://rancher.com/docs/rancher/v2.6/en/installation/install-rancher-on-k8s/
+
+### create namespace
 ```
 kubectl create namespace cattle-system
 ```
 
-## install cert manager
+### install cert manager
 https://rancher.com/docs/rancher/v2.5/en/installation/other-installation-methods/behind-proxy/install-rancher/
 ```
 helm repo add jetstack https://charts.jetstack.io
@@ -128,20 +132,18 @@ helm repo update
 helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.5.1
   
 ```
-## install rancher
-
+### install rancher
 ```
-kubectl create namespace cattle-system
-
 helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 
 helm install rancher rancher-latest/rancher \
   --namespace cattle-system \
   --set hostname=59FF44DD.nip.io
-  
-
-
 ```
+
+
+
+
 
 ---
 ## install tools
