@@ -62,7 +62,10 @@ change root password
 ```
 sudo passwd root
 ```
-
+## update apt
+```
+sudo apt-get update
+```
 ## add vxlan support (required for kubernetes network plugin stable work)
 https://github.com/k3s-io/k3s/issues/4234
 ```
