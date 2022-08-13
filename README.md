@@ -71,7 +71,7 @@ sudo apt install linux-modules-extra-raspi && sudo reboot
 ## install k3s
 ```
 export K3S_KUBECONFIG_MODE="644"
-export INSTALL_K3S_EXEC="--disable-network-policy --cluster-cidr=10.1.0.0/16 --service-cidr=10.0.0.0/16 --kube-proxy-arg=proxy-mode=ipvs --kube-proxy-arg=ipvs-strict-arp=false --kube-proxy-arg=ipvs-strict-arp --disable=traefik --disable=servicelb --disable=local-storage"
+export INSTALL_K3S_EXEC="--disable-network-policy --cluster-cidr=10.1.0.0/16 --service-cidr=10.0.0.0/16 --kube-proxy-arg=proxy-mode=ipvs --disable=traefik --disable=servicelb --disable=local-storage"
 
 curl -sfL https://get.k3s.io | sh -
 
