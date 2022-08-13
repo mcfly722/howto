@@ -109,7 +109,10 @@ helm install \
  --set controller.service.annotations."metallb\.universe\.tf/address-pool"=ingress-ip-pool \
  ingress-nginx nginx-stable/nginx-ingress 
 ```
-
+## create namespace for Rancher
+```
+kubectl create namespace cattle-system
+```
 
 ## install cert manager
 https://rancher.com/docs/rancher/v2.5/en/installation/other-installation-methods/behind-proxy/install-rancher/
