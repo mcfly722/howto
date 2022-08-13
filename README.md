@@ -58,7 +58,7 @@ https://github.com/k3s-io/k3s/issues/4234
 sudo apt install linux-modules-extra-raspi && sudo reboot
 ```
 ## install k3s
-(https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/)
+(https://rancher.com/docs/k3s/latest/en/installation/install-options/)
 ```
 export K3S_KUBECONFIG_MODE="644"
 export INSTALL_K3S_VERSION="v1.23.9+k3s1"
