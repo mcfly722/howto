@@ -13,20 +13,6 @@ rename node<br>
 ```
 sudo hostnamectl set-hostname 'master'
 ```
-## specify static ip
-```
-cat <<EOT > /etc/netplan/50-cloud-init.yaml
-network:
-  version: 2
-  ethernets:
-    eth0:
-      dhcp4: no
-      addresses: [192.168.0.200/24]
-      gateway4: 192.168.0.1
-      nameservers:
-        addresses: [192.168.0.1, 8.8.8.8]
-EOT
-```
 ## add new user (mcfly722)
 ```
 sudo adduser mcfly722
@@ -72,6 +58,7 @@ https://github.com/k3s-io/k3s/issues/4234
 sudo apt install linux-modules-extra-raspi && sudo reboot
 ```
 ## install k3s
+(https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/)
 ```
 export K3S_KUBECONFIG_MODE="644"
 export INSTALL_K3S_EXEC="--disable-network-policy --cluster-cidr=10.1.0.0/16 --service-cidr=10.0.0.0/16 --kube-proxy-arg=proxy-mode=ipvs --disable=traefik --disable=servicelb"
@@ -338,4 +325,18 @@ to rancher download images manually
 ```
 sudo docker pull rancher/coreos-etcd:v3.4.15-rancher1
 sudo docker pull rancher/rke-tools:v0.1.75
+```
+## specify static ip
+```
+cat <<EOT > /etc/netplan/50-cloud-init.yaml
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4: no
+      addresses: [192.168.0.200/24]
+      gateway4: 192.168.0.1
+      nameservers:
+        addresses: [192.168.0.1, 8.8.8.8]
+EOT
 ```
