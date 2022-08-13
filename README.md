@@ -121,16 +121,20 @@ kubectl create namespace cattle-system
 ### install cert manager
 https://rancher.com/docs/rancher/v2.5/en/installation/other-installation-methods/behind-proxy/install-rancher/
 ```
+# If you have installed the CRDs manually instead of with the `--set installCRDs=true` option added to your Helm install command, you should upgrade your CRD resources before upgrading the Helm chart:
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.crds.yaml
+
+# Add the Jetstack Helm repository
 helm repo add jetstack https://charts.jetstack.io
 
-kubectl create namespace cert-manager
-
-kubectl apply --validate=false -f https://github.com/cert-manager/cert-manager/releases/download/v1.5.1/cert-manager.crds.yaml
-
+# Update your local Helm chart repository cache
 helm repo update
 
-helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.5.1
-  
+# Install the cert-manager Helm chart
+helm install cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.7.1
 ```
 ### install rancher
 ```
