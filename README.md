@@ -81,16 +81,6 @@ sudo apt-get install helm
 ```
 helm repo add metallb https://metallb.github.io/metallb
 helm install --namespace metallb-system --create-namespace metallb metallb/metallb
-
-kubectl label namespace metallb-system pod-security.kubernetes.io/enforce=privileged
-kubectl label namespace metallb-system pod-security.kubernetes.io/audit=privileged
-kubectl label namespace metallb-system pod-security.kubernetes.io/warn=privileged
-
-sudo ufw allow 6443/tcp
-sudo ufw allow 443/tcp
-sudo ufw allow 80/tcp
-
-sudo ip link set eth0 promisc on
 ```
 ## add metallb ip pool for ingress-controller
 ```
