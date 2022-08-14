@@ -126,7 +126,7 @@ helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 
 kubectl create namespace cattle-system
 
-helm upgrade --install rancher rancher-latest/rancher --namespace cattle-system
+helm upgrade --install rancher rancher-latest/rancher --namespace cattle-system --set ingress.enabled=false
 ```
 
 
