@@ -166,7 +166,7 @@ kubectl create secret tls rancher-web-tls \
   --cert rancher-web.crt
 ```
 ### install Rancher 
-I use version 2.5.7 (2.5.8 has Fleet what is not stable enought)<br>
+I using v2.5.7 (2.5.8 has Fleet what is not stable enought)<br>
 (https://artifacthub.io/packages/helm/rancher-stable/rancher/2.5.7 )
 
 ```
@@ -179,7 +179,6 @@ helm upgrade --install \
 --namespace cattle-system \
 --set hostname=rancher.59ff44dd.nip.io \
 --set ingress.tls.source=rancher-web-tls \
---set privateCA=true \
 --set replicas=1 \
 rancher rancher-stable/rancher --version 2.5.7
 ```
