@@ -111,7 +111,13 @@ with Base=36
 ## issue self-signed certificates
 root CA certificate
 ```
-openssl req -x509 -nodes -newkey rsa:4096 -keyout rootCA.key -out rootCA.crt -days 365000 -subj '/CN=59ff44dd.nip.io/O=Company' -addext 'keyUsage=cRLSign, digitalSignature, keyCertSign'
+openssl req -x509 -nodes \
+ -newkey rsa:4096 \
+ -keyout rootCA.key \
+ -out rootCA.crt \
+ -days 365000 \
+ -subj '/CN=59ff44dd.nip.io/O=Company' \
+ -addext 'keyUsage=cRLSign, digitalSignature, keyCertSign'
 ```
 
 ## install ingress controller
