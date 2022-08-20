@@ -158,6 +158,37 @@ helm install \
 kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
 
 ```
+### create ingress rule for dashboard
+```
+cat <<EOT > dashboard-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashboard
+  namespace: dashboard-system
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: "dashboard.59ff44dd.nip.io"
+    http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: kubernetes-dashboard
+            port:
+              number: 80
+  tls:
+    - hosts:
+      - dashboard.59ff44dd.nip.io
+      secretName: dashboard-web-tls
+EOT
+```
+```
+kubectl apply -f dashboard-ingress.yaml
+```
 
 
 ## (not required) calculate local-ip.co address for external connections
