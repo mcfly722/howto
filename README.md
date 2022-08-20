@@ -212,6 +212,9 @@ EOT
 ```
 kubectl apply -f rancher-ingress.yaml
 ```
+wait till Rancher container will be started<br>
+logon to https://rancher.59ff44dd.nip.io/ and set new admin password<br>
+
 ---
 ## install tools
 ```
