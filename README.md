@@ -144,21 +144,6 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 
 helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.7.1
 ```
-### install Rancher
-```
-helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
-
-kubectl create namespace cattle-system
-
-helm upgrade --install \
---namespace cattle-system \
---set ingress.enabled=false \
---set replicas=1 \
---set hostname=rancher.59ff44dd.nip.io \
---set 'extraEnv[0].name=CATTLE_FEATURES' \
---set 'extraEnv[0].value=continuous-delivery=false' \
-rancher rancher-latest/rancher
-```
 ### issue Rancher Web certificate
 ```
 openssl req -x509 -nodes \
@@ -180,35 +165,25 @@ kubectl create secret tls rancher-web-tls \
   --key rancher-web.key \
   --cert rancher-web.crt
 ```
+### install Rancher 
+I use version 2.5.7 (2.5.8 has Fleet what is not stable enought)<br>
+(https://artifacthub.io/packages/helm/rancher-stable/rancher/2.5.7 )
 
-### create ingress rule for Rancher
 ```
-cat <<EOT > rancher-ingress.yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: rancher
-  namespace: cattle-system
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-spec:
-  rules:
-  - host: "rancher.59ff44dd.nip.io"
-    http:
-      paths:
-      - path: "/"
-        pathType: Prefix
-        backend:
-          service:
-            name: rancher
-            port:
-              number: 80
-  tls:
-    - hosts:
-      - rancher.59ff44dd.nip.io
-      secretName: rancher-web-tls
-EOT
+helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+helm search repo rancher-stable --versions
+
+kubectl create namespace cattle-system
+
+helm upgrade --install \
+--namespace cattle-system \
+--set hostname=rancher.59ff44dd.nip.io \
+--set ingress.tls.source=rancher-web-tls \
+--set privateCA=true \
+--set replicas=1 \
+rancher rancher-stable/rancher --version 2.5.7
 ```
+
 ```
 kubectl apply -f rancher-ingress.yaml
 ```
