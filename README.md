@@ -125,7 +125,7 @@ openssl req -x509 -nodes \
 helm repo add nginx-stable https://helm.nginx.com/stable
 
 helm install \
- --namespace ingress-nginx \
+ --namespace ingress-system \
  --create-namespace \
  --set controller.service.annotations."metallb\.universe\.tf/address-pool"=ingress-ip-pool \
  ingress-nginx nginx-stable/nginx-ingress 
