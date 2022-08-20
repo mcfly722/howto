@@ -108,8 +108,7 @@ To convert Reversed Number to local-IP use calculator:
 https://www.rapidtables.com/convert/number/base-converter.html
 with Base=36
 
-## issue self-signed certificates
-root CA certificate
+## issue root CA Certificate
 ```
 openssl req -x509 -nodes \
  -newkey rsa:4096 \
@@ -119,20 +118,6 @@ openssl req -x509 -nodes \
  -subj '/CN=59ff44dd.nip.io/O=Company' \
  -addext 'keyUsage=cRLSign, digitalSignature, keyCertSign'
 ```
-Rancher Web certificate
-```
-openssl req -x509 -nodes \
- -newkey rsa:4096 \
- -CA rootCA.crt \
- -CAkey rootCA.key \
- -days 365000 \
- -subj '/CN=rancher.59ff44dd.nip.io' \
- -addext 'extendedKeyUsage=1.3.6.1.5.5.7.3.1' \
- -addext 'keyUsage=keyEncipherment' \
- -keyout rancher-web.key \
- -out rancher-web.crt
-```
-
 ## install ingress controller
 (https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/)
 ```
@@ -158,13 +143,26 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 
 helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.7.1
 ```
-### install rancher
+### install Rancher
 ```
 helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 
 kubectl create namespace cattle-system
 
 helm upgrade --install rancher rancher-latest/rancher --namespace cattle-system --set ingress.enabled=false
+```
+### issue Rancher Web certificate
+```
+openssl req -x509 -nodes \
+ -newkey rsa:4096 \
+ -CA rootCA.crt \
+ -CAkey rootCA.key \
+ -days 365000 \
+ -subj '/CN=rancher.59ff44dd.nip.io' \
+ -addext 'extendedKeyUsage=1.3.6.1.5.5.7.3.1' \
+ -addext 'keyUsage=keyEncipherment' \
+ -keyout rancher-web.key \
+ -out rancher-web.crt
 ```
 
 
