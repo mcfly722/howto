@@ -107,6 +107,55 @@ helm install \
  --set controller.service.annotations."metallb\.universe\.tf/address-pool"=ingress-ip-pool \
  ingress-system nginx-stable/nginx-ingress 
 ```
+## issue root CA Certificate
+```
+openssl req -x509 -nodes \
+ -newkey rsa:4096 \
+ -keyout rootCA.key \
+ -out rootCA.crt \
+ -days 365000 \
+ -subj '/CN=59ff44dd.nip.io/O=Company' \
+ -addext 'keyUsage=cRLSign, digitalSignature, keyCertSign'
+```
+## install dashboard
+(https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard )
+
+### issue dashboard Web certificate
+```
+openssl req -x509 -nodes \
+ -newkey rsa:4096 \
+ -CA rootCA.crt \
+ -CAkey rootCA.key \
+ -days 365000 \
+ -subj '/CN=dashboard.59ff44dd.nip.io' \
+ -addext 'extendedKeyUsage=1.3.6.1.5.5.7.3.1' \
+ -addext 'keyUsage=keyEncipherment' \
+ -keyout dashboard-web.key \
+ -out dashboard-web.crt
+```
+### create dashboard namespace 
+```
+kubectl create namespace dashboard-system
+```
+
+### add dashboard web certificate to k8s secret
+```
+kubectl create secret tls dashboard-web-tls \
+  --namespace dashboard-system \
+  --key dashboard-web.key \
+  --cert dashboard-web.crt
+```
+
+### install dashboard
+```
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+
+helm install \
+ --namespace dashboard-system \
+ --create-namespace \
+kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
+
+```
 
 
 ## (not required) calculate local-ip.co address for external connections
@@ -122,16 +171,6 @@ To convert Reversed Number to local-IP use calculator:
 https://www.rapidtables.com/convert/number/base-converter.html
 with Base=36
 
-## issue root CA Certificate
-```
-openssl req -x509 -nodes \
- -newkey rsa:4096 \
- -keyout rootCA.key \
- -out rootCA.crt \
- -days 365000 \
- -subj '/CN=59ff44dd.nip.io/O=Company' \
- -addext 'keyUsage=cRLSign, digitalSignature, keyCertSign'
-```
 
 ## install Rancher
 https://rancher.com/docs/rancher/v2.6/en/installation/other-installation-methods/behind-proxy/install-rancher/
