@@ -51,6 +51,7 @@ sudo passwd root
 ## add vxlan support (required for kubernetes network plugin stable work)
 https://github.com/k3s-io/k3s/issues/4234
 ```
+sudo apt-get update
 sudo apt install linux-modules-extra-raspi && sudo reboot
 ```
 ## install k3s
