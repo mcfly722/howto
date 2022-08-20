@@ -165,9 +165,45 @@ openssl req -x509 -nodes \
  -out rancher-web.crt
 ```
 
+### add Rancher web certificate to k8s secret
+```
+kubectl create secret tls rancher-web-tls \
+  --namespace cattle-system \
+  --key rancher-web.key \
+  --cert rancher-web.crt
+```
 
-
-
+### create ingress rule for Rancher
+```
+cat <<EOT > rancher-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rancher
+  namespace: cattle-system
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: "rancher.59ff44dd.nip.io"
+    http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: rancher
+            port:
+              number: 80
+  tls:
+    - hosts:
+      - rancher.59ff44dd.nip.io
+      secretName: rancher-web-tls
+EOT
+```
+```
+kubectl apply -f rancher-ingress.yaml
+```
 
 ---
 ## install tools
