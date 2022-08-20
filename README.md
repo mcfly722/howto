@@ -153,7 +153,9 @@ helm upgrade --install \
 --namespace cattle-system \
 --set ingress.enabled=false \
 --set replicas=1 \
---set continuous-delivery=false \
+--set hostname=rancher.59ff44dd.nip.io \
+--set 'extraEnv[0].name=CATTLE_FEATURES' \
+--set 'extraEnv[0].value=harvester=false,rke2=false,continuous-delivery=false' \
 rancher rancher-latest/rancher
 ```
 ### issue Rancher Web certificate
