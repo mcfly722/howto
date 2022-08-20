@@ -95,6 +95,18 @@ EOT
 ```
 kubectl apply -f metallb-IPAddressPool.yaml
 ```
+## calculate local-ip.co address for external connections
+```
+IP              = 89.255.68.221
+IP Hex          = 59.FF.44.DD
+IP Hex Reversed = DD.44.FF.59
+Num Reversed    = 3712286553
+Local-IP        = 1pe76mx
+```
+To convert Reversed Number to local-IP use calculator:
+https://www.rapidtables.com/convert/number/base-converter.html
+with Base=36
+
 ## install ingress controller
 (https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/)
 ```
