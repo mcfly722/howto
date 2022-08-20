@@ -96,6 +96,19 @@ EOT
 ```
 kubectl apply -f metallb-IPAddressPool.yaml
 ```
+## install Nginx Ingress Controller
+(https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/)
+```
+helm repo add nginx-stable https://helm.nginx.com/stable
+
+helm install \
+ --namespace ingress-system \
+ --create-namespace \
+ --set controller.service.annotations."metallb\.universe\.tf/address-pool"=ingress-ip-pool \
+ ingress-system nginx-stable/nginx-ingress 
+```
+
+
 ## (not required) calculate local-ip.co address for external connections
 ```
 IP              = 89.255.68.221
@@ -118,17 +131,6 @@ openssl req -x509 -nodes \
  -days 365000 \
  -subj '/CN=59ff44dd.nip.io/O=Company' \
  -addext 'keyUsage=cRLSign, digitalSignature, keyCertSign'
-```
-## install Nginx Ingress Controller
-(https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/)
-```
-helm repo add nginx-stable https://helm.nginx.com/stable
-
-helm install \
- --namespace ingress-system \
- --create-namespace \
- --set controller.service.annotations."metallb\.universe\.tf/address-pool"=ingress-ip-pool \
- ingress-system nginx-stable/nginx-ingress 
 ```
 
 ## install Rancher
