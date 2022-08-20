@@ -102,6 +102,7 @@ IP Hex          = 59.FF.44.DD
 IP Hex Reversed = DD.44.FF.59
 Num Reversed    = 3712286553
 Local-IP        = 1pe76mx
+nip.io addr     = 59ff44dd.nip.io
 ```
 To convert Reversed Number to local-IP use calculator:
 https://www.rapidtables.com/convert/number/base-converter.html
