@@ -153,6 +153,8 @@ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm install \
  --namespace dashboard-system \
  --create-namespace \
+ --set=protocolHttp=true \
+ --set=service.externalPort=80 \
 kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
 
 ```
