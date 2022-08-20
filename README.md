@@ -123,14 +123,14 @@ Rancher Web certificate
 ```
 openssl req -x509 -nodes \
  -newkey rsa:4096 \
- -keyout rancher-web.key \
- -out rancher-web.crt \
+ -CA rootCA.crt \
+ -CAkey rootCA.key \
  -days 365000 \
  -subj '/CN=rancher.59ff44dd.nip.io' \
  -addext 'extendedKeyUsage=1.3.6.1.5.5.7.3.1' \
  -addext 'keyUsage=keyEncipherment' \
- -CA rootCA.crt \
- -CAkey rootCA.key
+ -keyout rancher-web.key \
+ -out rancher-web.crt
 ```
 
 ## install ingress controller
