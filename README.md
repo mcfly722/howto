@@ -119,7 +119,7 @@ openssl req -x509 -nodes \
  -subj '/CN=59ff44dd.nip.io/O=Company' \
  -addext 'keyUsage=cRLSign, digitalSignature, keyCertSign'
 ```
-## install ingress controller
+## install Nginx Ingress Controller
 (https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/)
 ```
 helm repo add nginx-stable https://helm.nginx.com/stable
@@ -128,7 +128,7 @@ helm install \
  --namespace ingress-system \
  --create-namespace \
  --set controller.service.annotations."metallb\.universe\.tf/address-pool"=ingress-ip-pool \
- ingress-nginx nginx-stable/nginx-ingress 
+ ingress-system nginx-stable/nginx-ingress 
 ```
 
 ## install Rancher
