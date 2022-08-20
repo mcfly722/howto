@@ -154,7 +154,7 @@ helm install \
  --namespace dashboard-system \
  --create-namespace \
  --set=protocolHttp=true \
- --set=service.externalPort=80 \
+ --set=service.externalPort=9090 \
 kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
 
 ```
@@ -179,7 +179,7 @@ spec:
           service:
             name: kubernetes-dashboard
             port:
-              number: 80
+              number: 9090
   tls:
     - hosts:
       - dashboard.59ff44dd.nip.io
