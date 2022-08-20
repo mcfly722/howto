@@ -96,7 +96,7 @@ EOT
 ```
 kubectl apply -f metallb-IPAddressPool.yaml
 ```
-## calculate local-ip.co address for external connections
+## (not required) calculate local-ip.co address for external connections
 ```
 IP              = 89.255.68.221
 IP Hex          = 59.FF.44.DD
