@@ -115,3 +115,34 @@ kubectl create secret tls grafana-web-tls \
   --key grafana-web.key \
   --cert grafana-web.crt
 ```
+### create Grafana Ingress publication
+```
+cat <<EOT > grafana-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana
+  namespace: grafana-system
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: "grafana.59ff44dd.nip.io"
+    http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana-system
+            port:
+              number: 80
+  tls:
+    - hosts:
+      - grafana.59ff44dd.nip.io
+      secretName: grafana-web-tls
+EOT
+```
+```
+kubectl apply -f grafana-ingress.yaml
+```
