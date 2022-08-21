@@ -67,14 +67,31 @@ EOT
 kubectl apply -f prometheus-ingress.yaml
 ```
 ## install Grafana
+https://github.com/grafana/helm-charts/blob/main/charts/grafana/README.md
+### add Grafana repo
 ```
 helm repo add grafana https://grafana.github.io/helm-charts
 ```
+
+### prepare Grafana values
+```
+cat <<EOT > grafana-values.yaml
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-system-server
+EOT
+```
+### install Grafana
 ```
 helm upgrade --install \
 --namespace grafana-system \
 --create-namespace \
--f $(NAMESPACE)-grafana-values.yaml \
+--set adminPassword=<GRAFANA SITE PASSWORD> \
+-f grafana-values.yaml \
 grafana-system grafana/grafana
 ```
 ### issue Grafana web certificate
