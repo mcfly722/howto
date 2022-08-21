@@ -117,10 +117,10 @@ openssl req -x509 -nodes \
  -subj '/CN=59ff44dd.nip.io/O=Company' \
  -addext 'keyUsage=cRLSign, digitalSignature, keyCertSign'
 ```
-## install dashboard
+## install Dashboard
 (https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard )
 
-### issue dashboard Web certificate
+### issue Dashboard Web certificate
 ```
 openssl req -x509 -nodes \
  -newkey rsa:4096 \
@@ -133,7 +133,7 @@ openssl req -x509 -nodes \
  -keyout dashboard-web.key \
  -out dashboard-web.crt
 ```
-### install dashboard
+### install Dashboard
 ```
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 
@@ -142,14 +142,14 @@ helm install \
  --create-namespace \
 kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
 ```
-### add dashboard web certificate to k8s secret
+### add Dashboard web certificate to k8s secret
 ```
 kubectl create secret tls dashboard-web-tls \
   --namespace dashboard-system \
   --key dashboard-web.key \
   --cert dashboard-web.crt
 ```
-### create ingress rule for dashboard
+### create Ingress rule for Dashboard
 ```
 cat <<EOT > dashboard-ingress.yaml
 apiVersion: networking.k8s.io/v1
@@ -181,38 +181,36 @@ EOT
 ```
 kubectl apply -f dashboard-ingress.yaml
 ```
-### create k8s service account
-https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+---
+## Create K8S Access Token
 
+### create k8s account
 ```
 kubectl create serviceaccount mcfly722
 ```
-### create k8s service account role binding
+### create k8s account role binding
+```
+kubectl create clusterrolebinding mcfly722 -n default --clusterrole=cluster-admin --serviceaccount=default:mcfly722
+```
+### get k8s account token
 
-```
-cat <<EOT > mcfly722-clusterRoleBinding.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: mcfly722
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: mcfly722
-  namespace: default
-EOT
-```
-```
-kubectl apply -f mcfly722-clusterRoleBinding.yaml
-```
-### get k8s service account token
 ```
 kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='mcfly722')].data.token}"|base64 --decode
 ```
+(you can use it to authenticate on dashboard)
+
 ---
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 ## (not required) calculate local-ip.co address for external connections
 ```
 IP              = 89.255.68.221
