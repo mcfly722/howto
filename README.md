@@ -260,6 +260,23 @@ kubectl config set-credentials default --token=<YOUR TOKEN>
 kubectl config set-context default --cluster default --user=default
 kubectl config use-context default
 ```
+## install Prometheus
+
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add stable https://charts.helm.sh/stable
+
+helm upgrade --install \
+--namespace prometheus-system \
+--create-namespace \
+--set alertmanager.enabled=false \
+--set pushgateway.enabled=false \
+--set kubeStateMetrics.enabled=false \
+--set nodeExporter.enabled=false \
+--set server.extraFlags[0]=storage.tsdb.retention.size=800MB \
+prometheus-system prometheus-community/prometheus
+```
+
 <br>
 <br>
 <br>
