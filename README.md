@@ -273,7 +273,8 @@ helm upgrade --install \
 --set pushgateway.enabled=false \
 --set kubeStateMetrics.enabled=false \
 --set nodeExporter.enabled=false \
---set server.extraFlags[0]=storage.tsdb.retention.size=800MB \
+--set server.extraFlags[0]=storage.tsdb.retention.size=900MB \
+--set server.persistentVolume.size=1Gb \
 prometheus-system prometheus-community/prometheus
 ```
 ### issue Prometheus web certificate
