@@ -261,7 +261,7 @@ kubectl config set-context default --cluster default --user=default
 kubectl config use-context default
 ```
 ## install Prometheus
-
+https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus/values.yaml
 ```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo add stable https://charts.helm.sh/stable
@@ -276,7 +276,57 @@ helm upgrade --install \
 --set server.extraFlags[0]=storage.tsdb.retention.size=800MB \
 prometheus-system prometheus-community/prometheus
 ```
-
+### issue Prometheus web certificate
+```
+openssl req -x509 -nodes \
+ -newkey rsa:4096 \
+ -CA rootCA.crt \
+ -CAkey rootCA.key \
+ -days 365000 \
+ -subj '/CN=prometheus.59ff44dd.nip.io' \
+ -addext 'extendedKeyUsage=1.3.6.1.5.5.7.3.1' \
+ -addext 'keyUsage=keyEncipherment' \
+ -keyout prometheus-web.key \
+ -out prometheus-web.crt
+```
+### save Prometheus web certificate to secret 
+```
+kubectl create secret tls prometheus-web-tls \
+  --namespace prometheus-system \
+  --key prometheus-web.key \
+  --cert prometheus-web.crt
+```
+### create Prometheus Ingress publication
+```
+cat <<EOT > prometheus-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus
+  namespace: prometheus-system
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: "prometheus.59ff44dd.nip.io"
+    http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: prometheus
+            port:
+              number: 80
+  tls:
+    - hosts:
+      - prometheus.59ff44dd.nip.io
+      secretName: prometheus-web-tls
+EOT
+```
+```
+kubectl apply -f prometheus-ingress.yaml
+```
 <br>
 <br>
 <br>
