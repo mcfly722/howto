@@ -67,12 +67,12 @@ EOT
 ```
 kubectl apply -f prometheus-ingress.yaml
 ```
-## install Prometheus K8S Stack
+## install Prometheus K8S Node Exporter
 ```
 helm upgrade --install \
 --namespace prometheus-system \
 --create-namespace \
-kube-prometheus-stack prometheus-community/kube-prometheus-stack
+prometheus-node-exporter prometheus-community/prometheus-node-exporter
 ```
 ## install Grafana
 https://github.com/grafana/helm-charts/blob/main/charts/grafana/README.md
