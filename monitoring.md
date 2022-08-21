@@ -66,3 +66,34 @@ EOT
 ```
 kubectl apply -f prometheus-ingress.yaml
 ```
+## install Grafana
+```
+helm repo add grafana https://grafana.github.io/helm-charts
+```
+```
+helm upgrade --install \
+--namespace grafana-system \
+--create-namespace \
+-f $(NAMESPACE)-grafana-values.yaml \
+grafana-system grafana/grafana
+```
+### issue Grafana web certificate
+```
+openssl req -x509 -nodes \
+ -newkey rsa:4096 \
+ -CA rootCA.crt \
+ -CAkey rootCA.key \
+ -days 365000 \
+ -subj '/CN=grafana.59ff44dd.nip.io' \
+ -addext 'extendedKeyUsage=1.3.6.1.5.5.7.3.1' \
+ -addext 'keyUsage=keyEncipherment' \
+ -keyout grafana-web.key \
+ -out grafana-web.crt
+```
+### save Grafana web certificate to secret 
+```
+kubectl create secret tls grafana-web-tls \
+  --namespace grafana-system \
+  --key grafana-web.key \
+  --cert grafana-web.crt
+```
