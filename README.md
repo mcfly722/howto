@@ -181,7 +181,32 @@ EOT
 ```
 kubectl apply -f dashboard-ingress.yaml
 ```
+### create k8s access token
+```
+kubectl create serviceaccount mcfly722
 
+cat <<EOT > mcfly722-clusterRoleBinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: mcfly722
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: mcfly722
+EOT
+```
+```
+kubectl apply -f mcfly722-clusterRoleBinding.yaml
+```
+### create new token
+```
+kubectl create token mcfly722
+```
+https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
 
 ## (not required) calculate local-ip.co address for external connections
 ```
