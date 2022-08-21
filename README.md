@@ -208,12 +208,11 @@ EOT
 ```
 kubectl apply -f mcfly722-clusterRoleBinding.yaml
 ```
-### create new k8s service account token
+### get k8s service account token
 ```
-kubectl create token mcfly722
+kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='mcfly722')].data.token}"|base64 --decode
 ```
-https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
-
+---
 ## (not required) calculate local-ip.co address for external connections
 ```
 IP              = 89.255.68.221
