@@ -217,7 +217,7 @@ openssl req -x509 -nodes \
 ### save API certificate to secret 
 ```
 kubectl create secret tls kubernetes-api-tls \
-  --namespace kube-system \
+  --namespace default \
   --key kubernetes-web.key \
   --cert kubernetes-web.crt
 ```
@@ -227,8 +227,8 @@ cat <<EOT > kubernetes-api-ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: kubernetes-api
-  namespace: kube-system
+  name: kubernetes
+  namespace: default
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.org/ssl-services: "kubernetes"
