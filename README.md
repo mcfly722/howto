@@ -202,6 +202,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: mcfly722
+  namespace: default
 EOT
 ```
 ```
