@@ -183,9 +183,13 @@ kubectl apply -f dashboard-ingress.yaml
 ```
 ### create k8s service account
 https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+
 ```
 kubectl create serviceaccount mcfly722
+```
 ### create k8s service account role binding
+
+```
 cat <<EOT > mcfly722-clusterRoleBinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
