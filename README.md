@@ -133,14 +133,6 @@ openssl req -x509 -nodes \
  -keyout dashboard-web.key \
  -out dashboard-web.crt
 ```
-### add dashboard web certificate to k8s secret
-```
-kubectl create secret tls dashboard-web-tls \
-  --namespace dashboard-system \
-  --key dashboard-web.key \
-  --cert dashboard-web.crt
-```
-
 ### install dashboard
 ```
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
@@ -149,7 +141,13 @@ helm install \
  --namespace dashboard-system \
  --create-namespace \
 kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
-
+```
+### add dashboard web certificate to k8s secret
+```
+kubectl create secret tls dashboard-web-tls \
+  --namespace dashboard-system \
+  --key dashboard-web.key \
+  --cert dashboard-web.crt
 ```
 ### create ingress rule for dashboard
 ```
