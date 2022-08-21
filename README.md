@@ -133,11 +133,6 @@ openssl req -x509 -nodes \
  -keyout dashboard-web.key \
  -out dashboard-web.crt
 ```
-### create dashboard namespace 
-```
-kubectl create namespace dashboard-system
-```
-
 ### add dashboard web certificate to k8s secret
 ```
 kubectl create secret tls dashboard-web-tls \
