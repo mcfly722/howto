@@ -253,12 +253,12 @@ EOT
 ```
 kubectl apply -f kubernetes-api-ingress.yaml
 ```
+### create %PROFILE%/.kube/config
 ```
 kubectl config set-cluster default --server='https://kubernetes.59ff44dd.nip.io' --insecure-skip-tls-verify=true
 kubectl config set-credentials default --token=<YOUR TOKEN>
 kubectl config set-context default --cluster default --user=default
 kubectl config use-context default
-
 ```
 <br>
 <br>
