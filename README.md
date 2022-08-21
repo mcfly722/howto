@@ -153,8 +153,6 @@ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm install \
  --namespace dashboard-system \
  --create-namespace \
- --set=protocolHttp=true \
- --set=service.externalPort=9090 \
 kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
 
 ```
@@ -168,6 +166,7 @@ metadata:
   namespace: dashboard-system
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    nginx.org/ssl-services: "kubernetes-dashboard"
 spec:
   rules:
   - host: "dashboard.59ff44dd.nip.io"
@@ -179,7 +178,7 @@ spec:
           service:
             name: kubernetes-dashboard
             port:
-              number: 9090
+              number: 443
   tls:
     - hosts:
       - dashboard.59ff44dd.nip.io
