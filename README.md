@@ -315,7 +315,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: prometheus
+            name: prometheus-system-server
             port:
               number: 80
   tls:
