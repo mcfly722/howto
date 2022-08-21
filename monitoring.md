@@ -90,7 +90,7 @@ datasources:
     datasources:
     - name: Prometheus
       type: prometheus
-      url: http://prometheus-system-server
+      url: http://prometheus-system-server.prometheus-system.svc.cluster.local
 EOT
 ```
 ### install Grafana
