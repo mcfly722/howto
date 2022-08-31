@@ -1,5 +1,6 @@
 This is my home K3S cluster project<br>
-<br>
+![Status: deployed](https://img.shields.io/badge/status-deployed-success.svg)
+<br><br>
 Deployment stages are:
 1. [Deploy Master Node](https://github.com/mcfly722/k8scluster/blob/main/master.md)
 2. [Deploy New Kubernetes Cluster](https://github.com/mcfly722/k8scluster/blob/main/kubernetes.md)
