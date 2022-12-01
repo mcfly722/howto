@@ -1,6 +1,5 @@
 # Installing Kubernetes Cluster using Kkubeadm
 
----
 ## Prepearing K8S node (ControlPlane / Worker)
 
 ### 1. Configuring proxy (if required)
@@ -104,7 +103,7 @@ kubeadm config images pull
 ```
 systemctl enable kubelet
 ```
----
+
 ## Install First Master
 To manage k8s cluster and join nodes to it, it is very confortable to specify DNS name. In future you could change it IP API Server address or envolve HA Balancer.
 
@@ -126,7 +125,7 @@ mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 ```
----
+
 ## Join second and further masters
 ### 1. Obtain certificate-key (from working master)
 ```
