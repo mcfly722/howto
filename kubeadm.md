@@ -25,18 +25,17 @@ overlay
 br_netfilter
 EOF
 ```
-### 5. start required kernel modules
+start required kernel modules (you can just restart the node for it)
 ```
 sudo modprobe overlay
 sudo modprobe br_netfilter
 ```
-or just restart node.
-### 6. test that required kernel modules are loaded
+test that required kernel modules are loaded
 ```
 lsmod | egrep 'br_netfilter|overlay'
 ```
-you have to find br_netfilter overlay on output.
-### 7. add kernel ip configuration
+you have to find <b>br_netfilter</b> overlay on output.
+### 5. add kernel ip configuration
 ```
 cat <<EOT > /etc/sysctl.d/kubernetes.conf
 net.bridge.bridge-nf-call-ip6tables = 1
@@ -44,34 +43,34 @@ net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
 EOT
 ```
-### 8. apply new kernel configuration and make it persistent
+apply new kernel configuration and make it persistent
 ```
 sysctl --system
 sysctl -p
 ```
 
-### 9. install containerd
+### 6. install containerd
 Add docker repo:
 ```
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 apt update
 ```
-install containerd
+#### 6.1. install containerd
 ```
 apt install containerd.io
 ```
-### 10. Create default containerd configuration
+#### 6.2. Create default containerd configuration
 ```
 containerd config default > /etc/containerd/config.toml
 ```
-### 11. Turn on SystemdCgroup for containerd
+#### 6.3. Turn on SystemdCgroup for containerd
 Open <b>/etc/containerd/config.toml</b>, search next key and set <b>SystemdCgroup = true</b>
 ```
 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
   SystemdCgroup = true
 ```
-### 12. Specify Containerd proxy (if required)
+#### 6.4. Specify Containerd proxy (if required)
 ```
 mkdir /etc/systemd/system/containerd.service.d
 cat <<EOT > /etc/systemd/system/containerd.service.d/http-proxy.conf
@@ -80,22 +79,25 @@ Environment="HTTP_PROXY=http://<username>:<password>@<proxy url>:<proxy port>"
 Environment="HTTPS_PROXY=http://<username>:<password>@<proxy url>:<proxy port>"
 EOT
 ```
-
-### 13. Apply configuration and restart Containerd service
+#### 6.5. Apply configuration and restart Containerd service
 ```
 systemctl daemon-reload
 systemctl start containerd
 ```
 
-### 14. Install kubelet kubeadm kubectl
+### 7. Install kubelet kubeadm kubectl
 ```
 curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+```
+```
 apt install -y kubelet kubeadm kubectl
+```
+```
 apt-mark hold kubelet kubeadm kubectl
 ```
 
-### 15. Pull required kubernetes images
+### 8. Pull required kubernetes images
 ```
 kubeadm config images pull
 ```
