@@ -1,7 +1,33 @@
 # Install K8S Management Tools (Dashboard)
+
 ## install Dashboard
 (https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard )
-
+### add metallb ip pool for ingress-controller
+```
+cat <<EOT > metallb-IPAddressPool.yaml
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: ingress-ip-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.0.201/32
+EOT
+```
+```
+kubectl apply -f metallb-IPAddressPool.yaml
+```
+### issue root CA Certificate
+```
+openssl req -x509 -nodes \
+ -newkey rsa:4096 \
+ -keyout rootCA.key \
+ -out rootCA.crt \
+ -days 365000 \
+ -subj '/CN=59ff44dd.nip.io/O=Company' \
+ -addext 'keyUsage=cRLSign, digitalSignature, keyCertSign'
+```
 ### issue Dashboard Web certificate
 ```
 openssl req -x509 -nodes \
@@ -96,7 +122,7 @@ openssl req -x509 -nodes \
  -keyout kubernetes-web.key \
  -out kubernetes-web.crt
 ```
-### save API certificate to secret 
+### save API certificate to secret
 ```
 kubectl create secret tls kubernetes-api-tls \
   --namespace default \

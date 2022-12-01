@@ -3,6 +3,7 @@ This is my home K3S cluster project<br>
 <br><br>
 Deployment stages are:
 1. [Deploy Master Node](https://github.com/mcfly722/k8scluster/blob/main/master.md)
-2. [Deploy New Kubernetes Cluster](https://github.com/mcfly722/k8scluster/blob/main/kubernetes.md)
-3. [Configure Kubernetes Cluster Management](https://github.com/mcfly722/k8scluster/blob/main/management.md)
-4. [Configure Cluster Monitoring](https://github.com/mcfly722/k8scluster/blob/main/monitoring.md)
+2. [Deploy New Kubernetes Cluster using K3S](https://github.com/mcfly722/k8scluster/blob/main/k3s.md)
+3. [Deploy New Kubernetes Cluster using Kubeadm](https://github.com/mcfly722/k8scluster/blob/main/kubeadm.md)
+4. [Configure Kubernetes Cluster (Home Project)](https://github.com/mcfly722/k8scluster/blob/main/home.md)
+5. [Configure Cluster Monitoring](https://github.com/mcfly722/k8scluster/blob/main/monitoring.md)
