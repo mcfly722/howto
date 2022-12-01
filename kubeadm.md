@@ -111,12 +111,12 @@ To manage k8s cluster and join nodes to it, it is very confortable to specify DN
 ### 1. Configure API Server DNS name on first master
 Add to /etc/host new endpoint cluster address
 ```
-127.0.0.1 <FQDN DNS K8S API Server name>
+127.0.0.1 <FQDN DNS K8S API Service name>
 ```
 
 ### 2. Initialize new cluster
 ```
-kubeadm init --pod-network-cidr=10.1.0.0/16 --service-cidr=10.0.0.0/16 --control-plane-endpoint <FQDN DNS K8S API Server name>:6443
+kubeadm init --pod-network-cidr=10.1.0.0/16 --service-cidr=10.0.0.0/16 --control-plane-endpoint <FQDN DNS K8S API Service name>:6443
 ```
 You can specify your own pod/service CIDR ranges for internal K8S networks
 ### 3. Wait cluster successful initialization
@@ -125,4 +125,31 @@ You can specify your own pod/service CIDR ranges for internal K8S networks
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
+```
+---
+## Join second and further masters
+### 1. Obtain certificate-key (from working master)
+```
+kubeadm init phase upload-certs --upload-certs
+```
+### 2. Obtain token and discovery-token
+```
+kubeadm token create --print-join-command
+```
+
+### 3. Join new master to existing k8s cluster
+```
+kubeadm join <FQDN DNS K8S API Service name>:6443 --apiserver-advertise-address <new master IP> --control-plane --token <yout token> --discovery-token-ca-cert-hash <your discovery-token> --certificate-key <certificate-key>
+```
+---
+## Join Worker to existing K8S cluster
+### 1. get join command from one of masters
+```
+kubeadm token create --print-join-command
+```
+use this command on worker node to join it to k8s cluster
+
+### 2. after successful join this node, mark it as 'worker'
+```
+kubectl label node <nodename> node-role.kubernetes.io/worker=worker
 ```
