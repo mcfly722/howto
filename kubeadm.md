@@ -156,6 +156,29 @@ kubectl label node <nodename> node-role.kubernetes.io/worker=worker
 ```
 ## Configuring K8S Cluster Components
 
+### Install network plugin (flannel)
+
+#### 1. download flannel yaml
+```
+wget https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+```
+
+#### 2. modify default namespace 'kube-flannel' to 'kube-system'
+```
+sed -i 's/namespace: kube-flannel/namespace: kube-system/g' kube-flannel.yml
+```
+
+#### 3. modify 10.244.0.0/16 network to 10.42.0.0/16 (or you can use your own network)
+```
+sed -i 's/10.244.0.0\/16/10.42.0.0\/16/g' kube-flannel.yml
+```
+
+#### 4. deploy flannel
+```
+kubectl apply -f kube-flannel.yml
+```
+
+
 ### Install HELM (on one of master nodes)
 https://helm.sh/docs/intro/install/
 ```
