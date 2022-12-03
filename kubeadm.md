@@ -1,4 +1,4 @@
-# Installing Kubernetes Cluster using Kkubeadm
+# Installing Kubernetes Cluster using kubeadm
 
 ## Prepearing K8S node (ControlPlane / Worker)
 
@@ -153,4 +153,39 @@ use this command on worker node to join it to k8s cluster
 ### 2. after successful join this node, mark it as 'worker'
 ```
 kubectl label node <nodename> node-role.kubernetes.io/worker=worker
+```
+## Configuring K8S Cluster Components
+
+### Install HELM (on one of master nodes)
+https://helm.sh/docs/intro/install/
+```
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+### Install nginx-Ingress-controller
+
+#### 1. mark all master nodes with ingress role labels
+```
+./kubectl label nodes kubsysldcmst1 node-role.kubernetes/ingress=
+```
+#### 2. install ingress controller and schedule it on master nodes
+https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/
+```
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+--set controller.kind=DaemonSet \
+--set controller.service.type=NodePort \
+--set controller.service.httpPort.nodePort=80 \
+--set controller.service.httpsPort.nodePort=443 \
+--set-json 'controller.nodeSelector={"node-role.kubernetes/ingress":""}' \
+--set-json 'controller.tolerations=[{"key":"","operator":"Exists","effect":"NoSchedule"}]' \
+--set-json 'controller.service.externalIPs=["EXTERNAL IP#1","EXTERNAL IP#2","EXTERNAL IP#3"]' \
+-n kube-system
+```
+for uninstalling you can use:
+```
+helm uninstall ingress-nginx -n kube-system
 ```
