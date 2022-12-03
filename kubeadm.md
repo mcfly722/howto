@@ -191,7 +191,7 @@ chmod 700 get_helm.sh
 
 #### 1. mark all master nodes with ingress role labels
 ```
-./kubectl label nodes kubsysldcmst1 node-role.kubernetes/ingress=
+./kubectl label nodes <NODE NAME> node-role.kubernetes/ingress=
 ```
 #### 2. install ingress controller and schedule it on master nodes
 https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/
