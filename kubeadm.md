@@ -212,3 +212,14 @@ for uninstalling you can use:
 ```
 helm uninstall ingress-nginx -n kube-system
 ```
+### Install MetalLB Balancer
+```
+helm repo add metallb https://metallb.github.io/metallb
+helm install metallb --namespace kube-system metallb/metallb
+```
+### Install Kubernetes dashboard
+#### 1. Deploy service
+```
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm install kubernetes-dashboard --namespace kube-system kubernetes-dashboard/kubernetes-dashboard
+```
