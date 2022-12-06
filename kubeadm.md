@@ -238,6 +238,7 @@ helm install \
 --set enable-insecure-login=true \
 --set serviceAccount.create=true \
 --set serviceAccount.name=dashboard-admin \
+--set rbac.clusterReadOnlyRole=false \
 --set rbac.clusterAdminRole=true \
 --set-json 'ingress.annotations={"kubernetes.io\/ingress.class":"nginx"}' \
 kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
@@ -247,3 +248,7 @@ kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
 kubectl create token dashboard-admin --namespace kube-system --duration 87600h
 ```
 Use this to access to dashboard
+#### 3. Grant full permissions to dashboard-admin serviceAccount
+```
+kubectl create clusterrolebinding kubernetes-dashboard-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin
+```
