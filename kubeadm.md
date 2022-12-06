@@ -223,3 +223,27 @@ helm install metallb --namespace kube-system metallb/metallb
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm install kubernetes-dashboard --namespace kube-system kubernetes-dashboard/kubernetes-dashboard
 ```
+
+### Install K8S dashboard
+#### 1. install dashboard
+```
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+
+helm install \
+--namespace kube-system \
+--set ingress.enabled=true \
+--set replicaCount=2 \
+--set ingress.hosts={<SPECIFY DASHBOARD SITE FQDN>} \
+--set enable-skip-login=true \
+--set enable-insecure-login=true \
+--set serviceAccount.create=true \
+--set serviceAccount.name=dashboard-admin \
+--set rbac.clusterAdminRole=true \
+--set-json 'ingress.annotations={"kubernetes.io\/ingress.class":"nginx"}' \
+kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
+```
+#### 2. Generate Dashboard Access Token
+```
+kubectl create token dashboard-admin --namespace kube-system --duration 87600h
+```
+Use this to access to dashboard
