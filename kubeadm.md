@@ -252,3 +252,17 @@ Use this to access to dashboard
 ```
 kubectl create clusterrolebinding kubernetes-dashboard-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin
 ```
+### Install Grafana
+```
+helm repo add grafana https://grafana.github.io/helm-charts
+
+helm upgrade --install --debug \
+--create-namespace \
+--namespace grafana \
+--set adminUser=admin \
+--set adminPassword=<ADMIN PASSWORD> \
+--set ingress.enabled=true \
+--set ingress.hosts={<GRAFANA FQDN HOST NAME>} \
+--set-json 'ingress.annotations={"kubernetes.io\/ingress.class":"nginx"}' \
+grafana grafana/grafana
+```
