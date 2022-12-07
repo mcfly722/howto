@@ -256,7 +256,7 @@ kubectl create clusterrolebinding kubernetes-dashboard-admin --clusterrole=clust
 ```
 helm repo add grafana https://grafana.github.io/helm-charts
 
-helm upgrade --install --debug \
+helm upgrade --install \
 --create-namespace \
 --namespace grafana \
 --set adminUser=admin \
