@@ -252,21 +252,6 @@ Use this to access to dashboard
 ```
 kubectl create clusterrolebinding kubernetes-dashboard-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin
 ```
-### Install Grafana
-```
-helm repo add grafana https://grafana.github.io/helm-charts
-
-helm upgrade --install \
---create-namespace \
---namespace grafana \
---set adminUser=admin \
---set adminPassword=<ADMIN PASSWORD> \
---set ingress.enabled=true \
---set ingress.hosts={<GRAFANA FQDN HOST NAME>} \
---set-json 'ingress.annotations={"kubernetes.io\/ingress.class":"nginx"}' \
-grafana grafana/grafana
-```
-
 ### Install Kube-Prometheus-Stack
 ```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -297,4 +282,21 @@ htpasswd -bnBC 10 "admin" "<YOUR PROMETHEUS PASSWORD HERE>"
 now put this generated token to new kubernetes secret
 ```
 kubectl -n kube-prometheus-stack create secret generic prometheus-basic-auth --from-literal=auth='<GENERATED TOKEN>'
+```
+### Install Grafana
+```
+helm repo add grafana https://grafana.github.io/helm-charts
+
+helm upgrade --install \
+--create-namespace \
+--namespace grafana \
+--set adminUser=admin \
+--set adminPassword=<PUT ADMIN PASSWORD HERE> \
+--set ingress.enabled=true \
+--set ingress.hosts={<PUT GRAFANA FQDN HERE>} \
+--set-json 'ingress.annotations={"kubernetes.io\/ingress.class":"nginx"}' \
+--set-json 'datasources={"datasources.yaml":{"datasources":[
+{"name":"kube-prometheus-stack", "type":"prometheus", "url":"http://kube-prometheus-stack-prometheus.kube-prometheus-stack.svc.cluster.local:9090"}
+]}}' \
+grafana grafana/grafana
 ```
