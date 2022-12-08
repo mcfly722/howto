@@ -266,3 +266,35 @@ helm upgrade --install \
 --set-json 'ingress.annotations={"kubernetes.io\/ingress.class":"nginx"}' \
 grafana grafana/grafana
 ```
+
+### Install Kube-Prometheus-Stack
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+helm upgrade --install \
+--create-namespace \
+--namespace kube-prometheus-stack \
+--set grafana.enabled=false \
+--set alertmanager.enabled=false \
+--set pushgateway.enabled=false \
+--set kubeStateMetrics.enabled=false \
+--set nodeExporter.enabled=true \
+--set prometheus.ingress.enabled=true \
+--set prometheus.ingress.hosts={<SPECIFY FULL FQDN PROMETHEUS SITE HERE>} \
+--set-json 'prometheus.ingress.annotations={"kubernetes.io\/ingress.class":"nginx",
+"nginx.ingress.kubernetes.io\/auth-type":"basic",
+"nginx.ingress.kubernetes.io\/auth-secret":"prometheus-basic-auth",
+"nginx.ingress.kubernetes.io\/auth-realm":"Authentication Required",
+"nginx.ingress.kubernetes.io\/auth-realm":"/$2"}' \
+--set server.emptyDir.sizeLimit=800Mb \
+kube-prometheus-stack prometheus-community/kube-prometheus-stack
+```
+#### generate authentication token with hash from password
+```
+apt install apache2-utils
+htpasswd -bnBC 10 "admin" "<YOUR PROMETHEUS PASSWORD HERE>"
+```
+now put this generated token to new kubernetes secret
+```
+kubectl -n kube-prometheus-stack create secret generic prometheus-basic-auth --from-literal=auth='<GENERATED TOKEN>'
+```
