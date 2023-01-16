@@ -1,7 +1,10 @@
 # Extend ubuntu volume
 
-#### 1. Add disk space to VM
-#### 2. Login under root
+#### 1. Add disk space to VM in VmWare/HyperV
+#### 2. Rescan new size in VM
+```
+echo 1 > /sys/block/sda/device/rescan
+```
 #### 3. Use pared to fix new disk size
 ```
 parted -l
