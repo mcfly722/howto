@@ -29,7 +29,7 @@ exit
 sudo bash
 
 cd /home/mcfly722/.ssh/
-echo 'ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBEdHq09BV7XByoDXGD3sI/1KvrJR9LNLMsUq1zZtkx8rqiNSFDrUmoJXonzX3PmwKBM9cWqNDiC1zHeYP7nWCvg6wIH0msqc5KN6nU6zVv32szOV6TFNyMSYMMJDKITJ8g==  CAPI:0d8f679eb028d7d2cc39f7a9fdb53535c6e6407d E=7221798@gmail.com' > authorized_keys
+echo 'ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBMd3ZCJN3qC8cMG9UbU5bsZFS9vYmynoI4TQe7O8AG1rlChbtmmFYFv+/6N8AXb4fR8xBcREY1hOQCuYmmJp8JD4CPsS3wR3H8nrOYQxlz/J3ctQH5kTG4cpArSiWaFe7w==  CAPI:19d98a2e091114c9bc7ec7e9064b380710c54c9a E=7221798@gmail.com' > authorized_keys
 echo 'net.ifnames=0 dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory' > /boot/firmware/cmdline.txt
 
 sudo chmod 600 authorized_keys
