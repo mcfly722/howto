@@ -74,7 +74,10 @@ AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 20
 ```
 ### 13. Check your client access
-### 14. Depete client private key from server
+Install wireguard client from https://www.wireguard.com/install/<br>
+Import your client config and try to connect<br>
+
+### 14. Dont forget to delete client private key from wireguard server
 ```
 rm /etc/wireguard/client_privatekey
 ```
