@@ -11,3 +11,4 @@ Deployment stages are:
 7. [Deploy Victoria Metrics](https://github.com/mcfly722/k8scluster/blob/main/victoriaMetrics.md)
 8. [Configure Kubernetes Cluster (Home Project)](https://github.com/mcfly722/k8scluster/blob/main/home.md)
 9. [Configure Cluster Monitoring](https://github.com/mcfly722/k8scluster/blob/main/monitoring.md)
+10. [Nekoray on RaspberryPi4](https://github.com/mcfly722/howto/blob/main/nekoray.md)
