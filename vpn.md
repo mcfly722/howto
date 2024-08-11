@@ -73,7 +73,7 @@ sudo tee /etc/cloak/cloak-client.json << EOF
   "UID": "$ck_uid",
   "PublicKey": "$ck_publicKey",
   "ServerName": "nl.mirror.flokinet.net",
-  "NumConn": 4,
+  "NumConn": 30,
   "KeepAlive": 0,
   "BrowserSig": "chrome",
   "StreamTimeout": 300
@@ -254,11 +254,22 @@ sudo journalctl -u wg-quick@wg0.service -f
 ```
 ---
 # 3. Performance testing
-## 3.1 check server speed
+## 3.1 check external ip
+```
+curl checkip.amazonaws.com
+```
+## 3.2 check server speed
 ```
 snap install speedtest-cli
 speedtest-cli
 ```
+## 3.3 check mtu
+```
+ping -c1 -s <SPECIFY YOUR TESTING PACKET SIZE> -M do 10.1.1.1
+# you chould add 28 to your maximum transmitted packet size, and it would be correct mtu
+
+```
+
 # 4. Debug
 ## 4.1 for Remote VM
 ```
@@ -267,7 +278,7 @@ ss -nltu 'sport = 51820'
 sudo tcpdump -nei ens3 tcp port 443
 sudo tcpdump -nei ens3 udp port 51820
 ```
-# for raspberry pi
+# 4.2 for raspberry pi
 ```
 # check that UDP1984 is listening by Cloak client
 ss -nltu 'sport = 1984'
