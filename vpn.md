@@ -151,6 +151,9 @@ EOF
 ### 1.2.3 Create Wireguard Client config
 ```
 export CLOAK_CLIENT_LISTENING_ADDRESS=<ADD HERE YOUR RASPBERRYPI LAN IP>
+export CLOAK_CLIENT_GATEWAY=<YOUR LOCAL GATEWAY FOR RASPBERRY PI>
+export CLOAK_SERVER_LISTENING_ADDRESS=<ADD HERE YOUR EXTERNAL VM IP>
+
 
 sudo tee /etc/wireguard/client-wg0.conf << EOF
 [Interface]
@@ -159,7 +162,10 @@ Address = 10.1.1.2/32
 MTU = 1420
 
 PostUp = iptables -t nat -A POSTROUTING -o wg0 -j MASQUERADE
+PostUp = ip route add $CLOAK_SERVER_LISTENING_ADDRESS/32 via $CLOAK_CLIENT_GATEWAY
+
 PostDown = iptables -t nat -D POSTROUTING -o wg0 -j MASQUERADE
+PostDown = ip route del $CLOAK_SERVER_LISTENING_ADDRESS/32 via $CLOAK_CLIENT_GATEWAY
 
 [Peer]
 PublicKey = $WG_ServerPublicKey
@@ -186,26 +192,20 @@ echo "net.ipv4.ip_forward=1"          | sudo tee -a /etc/sysctl.conf
 echo "net.ipv4.conf.all.forwarding=1" | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p
 ```
-### 2.2.1 Specify static route to your external VM via local gateway
-Otherwise, all Cloak client traffic would be routed back to WireGuard and would be loop.
-```
-sudo ip route add <YOUR EXTERNAL VM IP>/32 via <YOUR LOCAL GATEWAY>
-```
-
-### 2.2.2 Install Cloak client
+### 2.2.1 Install Cloak client
 ```
 curl -L https://github.com/cbeuw/Cloak/releases/download/v2.7.0/ck-client-linux-arm64-v2.7.0 > ck-client
 chmod +x ck-client
 sudo mv ck-client /usr/bin/ck-client
 sudo mkdir -p /etc/config/cloak
 ```
-### 2.2.3 Copy cloak client config from server to client
+### 2.2.2 Copy cloak client config from server to client
 ```
 from server: /etc/cloak/cloak-client.json
 to client:   /etc/cloak/cloak-client.json
 ```
 
-### 2.2.4 Register Cloak service
+### 2.2.3 Register Cloak service
 ```
 export CLOAK_REMOTE_SERVER="<enter your Remote VM IP>"
 
@@ -226,7 +226,7 @@ User=root
 WantedBy=multi-user.target
 EOF
 ```
-### 2.2.5 start Cloak client service
+### 2.2.4 start Cloak client service
 ```
 sudo systemctl enable cloak-client.service
 sudo systemctl restart cloak-client.service
