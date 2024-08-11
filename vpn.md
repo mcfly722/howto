@@ -158,7 +158,7 @@ PostDown = iptables -t nat -D POSTROUTING -o wg0 -j MASQUERADE
 
 [Peer]
 PublicKey = $WG_ServerPublicKey
-Endpoint = $CLOAK_CLIENT_LISTENING_ADDRESS:51820
+Endpoint = $CLOAK_CLIENT_LISTENING_ADDRESS:1984
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 20
 EOF
@@ -181,6 +181,7 @@ sudo journalctl -u wg-quick@wg0.service -f
 curl -L https://github.com/cbeuw/Cloak/releases/download/v2.7.0/ck-client-linux-arm64-v2.7.0 > ck-client
 chmod +x ck-client
 sudo mv ck-client /usr/bin/ck-client
+sudo mkdir -p /etc/config/cloak
 ```
 ### 2.2.2 Copy cloak client config from server to client
 ```
@@ -211,7 +212,10 @@ EOF
 ```
 ### 2.2.4 start Cloak client service
 ```
-sudo systemctl start cloak.service
+sudo systemctl enable cloak.service
+sudo systemctl restart cloak.service
+sudo systemctl status cloak.service
+sudo journalctl -u cloak.service -f
 ```
 
 
