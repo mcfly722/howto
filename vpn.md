@@ -43,7 +43,7 @@ export ck_uid=$(/usr/bin/ck-server -uid | awk '{print $NF}')
 ### 1.1.3 create cloak server config
 ```
 sudo mkdir -p /etc/cloak
-sudo tee /etc/cloak/ck-server.json << EOF
+sudo tee /etc/cloak/cloak-server.json << EOF
 {
   "ProxyBook": {
     "wireguard": [
@@ -65,7 +65,7 @@ EOF
 ### 1.1.4 create cloak client config
 ```
 sudo mkdir -p /etc/cloak
-sudo tee /etc/cloak/ck-client.json << EOF
+sudo tee /etc/cloak/cloak-client.json << EOF
 {
 "Transport": "direct",
 "ProxyMethod": "wireguard",
@@ -88,7 +88,7 @@ After=network.target
 StartLimitIntervalSec=0
 [Service]
 Type=simple
-ExecStart=/usr/bin/ck-server -c /etc/cloak/ck-server.json
+ExecStart=/usr/bin/ck-server -c /etc/cloak/cloak-server.json
 Restart=always
 [Install]
 WantedBy=multi-user.target
@@ -185,8 +185,8 @@ sudo mkdir -p /etc/config/cloak
 ```
 ### 2.2.2 Copy cloak client config from server to client
 ```
-from server: /etc/cloak/ck-client.json
-to client:   /etc/config/cloak/ck-client.json
+from server: /etc/cloak/cloak-client.json
+to client:   /etc/cloak/cloak-client.json
 ```
 
 ### 2.2.3 Register Cloak service
@@ -199,7 +199,7 @@ Description=Cloak Client Service
 After=network-online.target
 
 [Service]
-ExecStart=/usr/bin/ck-client -s $CLOAK_REMOTE_SERVER -p 443 -i 0.0.0.0 -u -c /etc/config/cloak/ck-client.json
+ExecStart=/usr/bin/ck-client -s $CLOAK_REMOTE_SERVER -p 443 -i 0.0.0.0 -u -c /etc/cloak/cloak-client.json
 WorkingDirectory=/tmp
 StandardOutput=inherit
 StandardError=inherit
