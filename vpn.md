@@ -88,7 +88,7 @@ After=network.target
 StartLimitIntervalSec=0
 [Service]
 Type=simple
-ExecStart=/usr/bin/ck-server -c /etc/cloak/ckserver.json
+ExecStart=/usr/bin/ck-server -c /etc/cloak/ck-server.json
 Restart=always
 [Install]
 WantedBy=multi-user.target
@@ -98,6 +98,8 @@ sudo systemctl daemon-reload
 sudo systemctl enable cloak-server.service
 sudo systemctl start cloak-server.service
 sudo systemctl status cloak-server.service
+
+sudo journalctl -u cloak-server.service
 ```
 ### 1.1.6 allow Cloak server TCP 443 for incomming connections
 ```
@@ -108,6 +110,7 @@ sudo ufw allow 443
 ```
 sudo apt install -y wireguard openresolv iptables
 
+# enable gateway forwarding
 echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 sysctl -p
 ```
@@ -137,11 +140,13 @@ PostDown = iptables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
 
 [Peer]
 PublicKey = $WG_ClientPublicKey
-AllowedIPs = $WG_ClientAlowedIp/32
+AllowedIPs = 10.1.1.2/32
 EOF
 ```
 ### 1.2.3 Create Wireguard Client config
 ```
+export CLOAK_CLIENT_LISTENING_ADDRESS=<ADD HERE YOUR RASPBERRYPI LAN IP>
+
 sudo tee /etc/wireguard/client-wg0.conf << EOF
 [Interface]
 PrivateKey = $WG_ClientPrivateKey
@@ -153,7 +158,7 @@ PostDown = iptables -t nat -D POSTROUTING -o wg0 -j MASQUERADE
 
 [Peer]
 PublicKey = $WG_ServerPublicKey
-Endpoint = $CLOAK_CLIENT_LISTENING_ADDRESS:$CLOAK_CLIENT_LISTENING_PORT
+Endpoint = $CLOAK_CLIENT_LISTENING_ADDRESS:51820
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 20
 EOF
