@@ -267,7 +267,14 @@ speedtest-cli
 ```
 ping -c1 -s <SPECIFY YOUR TESTING PACKET SIZE> -M do 10.1.1.1
 # you chould add 28 to your maximum transmitted packet size, and it would be correct mtu
+```
+## 3.4 check tcp speed
+```
+# on destination
+iperf -s -p 5003
 
+# on source
+iperf -c <REMOTE IP ADDRESS> -p 5003 -P 5
 ```
 
 # 4. Debug
