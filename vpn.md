@@ -67,15 +67,16 @@ EOF
 sudo mkdir -p /etc/cloak
 sudo tee /etc/cloak/cloak-client.json << EOF
 {
-"Transport": "direct",
-"ProxyMethod": "wireguard",
-"EncryptionMethod": "aes-gcm",
-"UID": "$ck_uid",
-"PublicKey": "$ck_publicKey",
-"ServerName": "nl.mirror.flokinet.net",
-"NumConn": 20,
-"BrowserSig": "chrome",
-"StreamTimeout": 300
+  "Transport": "direct",
+  "ProxyMethod": "wireguard",
+  "EncryptionMethod": "aes-128-gcm",
+  "UID": "$ck_uid",
+  "PublicKey": "$ck_publicKey",
+  "ServerName": "nl.mirror.flokinet.net",
+  "NumConn": 4,
+  "KeepAlive": 0,
+  "BrowserSig": "chrome",
+  "StreamTimeout": 300
 }
 EOF
 ```
@@ -99,7 +100,7 @@ sudo systemctl enable cloak-server.service
 sudo systemctl start cloak-server.service
 sudo systemctl status cloak-server.service
 
-sudo journalctl -u cloak-server.service
+sudo journalctl -u cloak-server.service -f
 ```
 ### 1.1.6 allow Cloak server TCP 443 for incomming connections
 ```
@@ -111,8 +112,9 @@ sudo ufw allow 443
 sudo apt install -y wireguard openresolv iptables
 
 # enable gateway forwarding
-echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-sysctl -p
+echo "net.ipv4.ip_forward=1"          | sudo tee -a /etc/sysctl.conf
+echo "net.ipv4.conf.all.forwarding=1" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
 ```
 ### 1.2.1 Generate Wireguard Keys
 ```
@@ -123,6 +125,9 @@ export  WG_ClientPublicKey=$(echo "$WG_ClientPrivateKey" | wg pubkey)
 ```
 ### 1.2.2 Create Wireguard Server config
 ```
+export default_interface=$(ip route | awk '/default/ {print $5; exit}')
+
+
 sudo tee /etc/wireguard/wg0.conf << EOF
 [Interface]
 PrivateKey = $WG_ServerPrivateKey
@@ -130,13 +135,13 @@ Address = 10.1.1.1/24
 ListenPort = 51820
 
 PostUp = iptables -I INPUT -p udp --dport 51820 -j ACCEPT
-PostUp = iptables -I FORWARD -i ens3 -o wg0 -j ACCEPT
+PostUp = iptables -I FORWARD -i $default_interface -o wg0 -j ACCEPT
 PostUp = iptables -I FORWARD -i wg0 -j ACCEPT
-PostUp = iptables -t nat -A POSTROUTING -o ens3 -j MASQUERADE
+PostUp = iptables -t nat -A POSTROUTING -o $default_interface -j MASQUERADE
 PostDown = iptables -D INPUT -p udp --dport 51820 -j ACCEPT
-PostDown = iptables -D FORWARD -i ens3 -o wg0 -j ACCEPT
+PostDown = iptables -D FORWARD -i $default_interface -o wg0 -j ACCEPT
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT
-PostDown = iptables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
+PostDown = iptables -t nat -D POSTROUTING -o $default_interface -j MASQUERADE
 
 [Peer]
 PublicKey = $WG_ClientPublicKey
@@ -160,7 +165,6 @@ PostDown = iptables -t nat -D POSTROUTING -o wg0 -j MASQUERADE
 PublicKey = $WG_ServerPublicKey
 Endpoint = $CLOAK_CLIENT_LISTENING_ADDRESS:1984
 AllowedIPs = 0.0.0.0/0
-PersistentKeepalive = 20
 EOF
 ```
 
@@ -176,30 +180,42 @@ sudo journalctl -u wg-quick@wg0.service -f
 
 # 2. LAN Gateway
 ## 2.1 Install Raspberry Pi OS Lite (64-bit)
-### 2.2.1 Install Cloak client
+```
+# enable forwarding
+echo "net.ipv4.ip_forward=1"          | sudo tee -a /etc/sysctl.conf
+echo "net.ipv4.conf.all.forwarding=1" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+```
+### 2.2.1 Specify static route to your external VM via local gateway
+Otherwise, all Cloak client traffic would be routed back to WireGuard and would be loop.
+```
+sudo ip route add <YOUR EXTERNAL VM IP>/32 via <YOUR LOCAL GATEWAY>
+```
+
+### 2.2.2 Install Cloak client
 ```
 curl -L https://github.com/cbeuw/Cloak/releases/download/v2.7.0/ck-client-linux-arm64-v2.7.0 > ck-client
 chmod +x ck-client
 sudo mv ck-client /usr/bin/ck-client
 sudo mkdir -p /etc/config/cloak
 ```
-### 2.2.2 Copy cloak client config from server to client
+### 2.2.3 Copy cloak client config from server to client
 ```
 from server: /etc/cloak/cloak-client.json
 to client:   /etc/cloak/cloak-client.json
 ```
 
-### 2.2.3 Register Cloak service
+### 2.2.4 Register Cloak service
 ```
 export CLOAK_REMOTE_SERVER="<enter your Remote VM IP>"
 
-sudo tee /lib/systemd/system/cloak.service << EOF
+sudo tee /lib/systemd/system/cloak-client.service << EOF
 [Unit]
 Description=Cloak Client Service
 After=network-online.target
 
 [Service]
-ExecStart=/usr/bin/ck-client -s $CLOAK_REMOTE_SERVER -p 443 -i 0.0.0.0 -u -c /etc/cloak/cloak-client.json
+ExecStart=/usr/bin/ck-client -s $CLOAK_REMOTE_SERVER -p 443 -i 127.0.0.1 -u -c /etc/cloak/cloak-client.json
 WorkingDirectory=/tmp
 StandardOutput=inherit
 StandardError=inherit
@@ -210,12 +226,12 @@ User=root
 WantedBy=multi-user.target
 EOF
 ```
-### 2.2.4 start Cloak client service
+### 2.2.5 start Cloak client service
 ```
-sudo systemctl enable cloak.service
-sudo systemctl restart cloak.service
-sudo systemctl status cloak.service
-sudo journalctl -u cloak.service -f
+sudo systemctl enable cloak-client.service
+sudo systemctl restart cloak-client.service
+sudo systemctl status cloak-client.service
+sudo journalctl -u cloak-client.service -f
 ```
 
 
@@ -242,4 +258,25 @@ sudo journalctl -u wg-quick@wg0.service -f
 ```
 snap install speedtest-cli
 speedtest-cli
+```
+# 4. Debug
+## 4.1 for Remote VM
+```
+ss -nltu 'sport = 443'
+ss -nltu 'sport = 51820'
+sudo tcpdump -nei ens3 tcp port 443
+sudo tcpdump -nei ens3 udp port 51820
+```
+# for raspberry pi
+```
+# check that UDP1984 is listening by Cloak client
+ss -nltu 'sport = 1984'
+
+# check access to your external vm via 443 port.
+sudo tcpdump -i any -nn src host <YOUR EXTERNAL VM IP> and port 443
+# otherwise add static route:
+sudo ip route add <YOUR EXTERNAL VM IP>/32 via 192.168.0.1
+
+sudo systemctl restart wg-quick@wg0.service
+
 ```
