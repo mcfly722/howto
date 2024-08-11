@@ -37,7 +37,7 @@ sudo mv ck-server /usr/bin/ck-server
 ```
 export content=$(/usr/bin/ck-server -key)
 export ck_publicKey=$(echo "$content" | head -n1 | awk '{print $NF}')
-export ck_privateKey=$(echo "$content" | head -n2 | awk '{print $NF}')
+export ck_privateKey=$(echo "$content" | head -n2 | tail -1 | awk '{print $NF}')
 export ck_uid=$(/usr/bin/ck-server -uid | awk '{print $NF}')
 ```
 ### 1.1.3 create cloak server config
