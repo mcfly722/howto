@@ -1,4 +1,4 @@
-#### Configuring OS
+## Configuring OS
 
 ### 1. Image
 download and install Raspberry Pi Imager
