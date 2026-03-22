@@ -27,5 +27,11 @@ EOF
 
 sudo netplan apply
 ```
-### 2. Deploy flexisip
+### 2. Increase file limits
+```
+sudo lxc config set flexisip limits.kernel.nofile 65535
+sudo lxc restart flexisip
+```
+
+### 3. Deploy flexisip
 Instruction [link](https://github.com/mcfly722/rasp-flexisip)
