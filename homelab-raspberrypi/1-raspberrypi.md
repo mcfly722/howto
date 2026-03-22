@@ -29,3 +29,10 @@ echo 'anonymous ALL=(ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers
 ```
 sudo systemctl restart sshd
 ```
+### 4. Increase file descriptor limits
+```
+sudo tee -a /etc/security/limits.conf << EOF
+* soft nofile 65535
+* hard nofile 65535
+EOF
+```
