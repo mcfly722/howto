@@ -3,7 +3,7 @@
 download and install Raspberry Pi Imager
 https://www.raspberrypi.com/software/
 
-Write <b>Ubuntu 22.04 LTS (RPI ZERO 2/3/4/400) X64</b> image on sd-card and put it to <b>Raspberry 4B</b><br>
+Write <b>Raspberry Pi OS (64-bit)</b> image on sd-card and put it to <b>Raspberry 4B</b><br>
 <br>
 
 logon to installed image with <b>ubuntu:ubuntu</b><br>
