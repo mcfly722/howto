@@ -48,6 +48,15 @@ sudo systemctl enable systemd-resolved
 sudo systemctl start systemd-networkd
 sudo systemctl start systemd-resolved
 ```
+Enable containers autostart
+```
+sudo mkdir -p /etc/lxc
+sudo tee -a /etc/lxc/default.conf << EOF
+lxc.start.auto = 1
+lxc.start.delay = 5
+lxc.group = onboot
+EOF
+```
 ### 2. Install LXD
 ```
 sudo apt update && sudo apt upgrade -y
