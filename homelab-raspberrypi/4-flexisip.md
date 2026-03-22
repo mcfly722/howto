@@ -6,7 +6,7 @@ sudo lxc launch ubuntu:22.04/arm64 flexisip
 ```
 Enter to container shell
 ```
-sudo lxc shell gateway
+sudo lxc shell flexisip
 ```
 Configure network interface
 ```
