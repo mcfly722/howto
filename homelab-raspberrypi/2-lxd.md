@@ -1,13 +1,14 @@
-#### LXD
+## LXD
 
 If you suppose deploy wireguard, you need to deploy it in container, because this service would be act as gateway and all traffic including traffic for other allications on same server would be forwarded via vpn channel.<br>
 To to avoid this, we putting wireguard in container and for this we need full fill network not NAT.
 
-### Create br0 and reassing ip to it from eth0
+### 1. Create br0 and reassing ip to it from eth0
 ```
 sudo apt upgrade
 sudo apt install bridge-utils
-
+```
+```
 sudo tee /etc/systemd/network/10-br0.netdev << EOF
 [NetDev]
 Name=br0
@@ -39,4 +40,41 @@ EOF
 ```
 ```
 sudo systemctl restart systemd-networkd
+```
+### 2. Install LXD
+```
+sudo apt update && sudo apt upgrade -y
+```
+```
+sudo apt install lxd lxd-client -y
+```
+```
+cat > ~/lxd-init-config.yaml << EOF
+config:
+  images.auto_update_interval: "0"
+networks: []
+storage_pools:
+- config: {}
+  description: ""
+  name: default
+  driver: dir
+profiles:
+- config: {}
+  description: ""
+  devices:
+    eth0:
+      name: eth0
+      nictype: bridged
+      parent: br0
+      type: nic
+    root:
+      path: /
+      pool: default
+      type: disk
+  name: default
+projects: []
+cluster: null
+EOF
+
+sudo lxd init --preseed < ~/lxd-init-config.yaml
 ```
