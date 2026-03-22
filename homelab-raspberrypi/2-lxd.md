@@ -22,7 +22,7 @@ sudo tee /etc/systemd/network/10-br0.network << EOF
 Name=br0
 
 [Network]
-LinkLocalAddressing=ipv4
+LinkLocalAddressing=no
 Address=192.168.0.7/24
 Gateway=192.168.0.1
 DNS=192.168.0.1
@@ -34,12 +34,19 @@ sudo tee /etc/systemd/network/10-eth0.network << EOF
 Name=eth0
 
 [Network]
-LinkLocalAddressing=ipv4
+LinkLocalAddressing=no
 Bridge=br0
 EOF
 ```
 ```
 sudo systemctl restart systemd-networkd
+```
+Enable systemd-networkd service even after restart
+```
+sudo systemctl enable systemd-networkd
+sudo systemctl enable systemd-resolved
+sudo systemctl start systemd-networkd
+sudo systemctl start systemd-resolved
 ```
 ### 2. Install LXD
 ```
@@ -77,4 +84,10 @@ cluster: null
 EOF
 
 sudo lxd init --preseed < ~/lxd-init-config.yaml
+```
+### 3. Enable IPv4 Gateway Forwarding
+```
+echo "net.ipv4.ip_forward=1"          | sudo tee -a /etc/sysctl.conf
+echo "net.ipv4.conf.all.forwarding=1" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
 ```
