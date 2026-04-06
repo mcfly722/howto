@@ -36,3 +36,32 @@ sudo tee -a /etc/security/limits.conf << EOF
 * hard nofile 65535
 EOF
 ```
+### 5. NTP
+```
+sudo tee /etc/systemd/system/timesyncd-force.service << EOF
+[Unit]
+Description=Force systemd-timesyncd to sync time
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/timedatectl set-ntp false
+ExecStartPost=/usr/bin/timedatectl set-ntp true
+EOF
+
+sudo tee /etc/systemd/system/timesyncd-force.timer << EOF
+[Unit]
+Description=Run timesyncd-force every minute
+
+[Timer]
+OnCalendar=*:0/1
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable --now timesyncd-force.timer
+
+systemctl list-timers timesyncd-force.timer
+```
