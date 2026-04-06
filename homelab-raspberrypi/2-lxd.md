@@ -48,6 +48,11 @@ sudo systemctl enable systemd-resolved
 sudo systemctl start systemd-networkd
 sudo systemctl start systemd-resolved
 ```
+Disable NetworkManager because it conflicting with systemd-networkd
+```
+sudo systemctl stop NetworkManager
+sudo systemctl disable NetworkManager
+```
 Enable containers autostart
 ```
 sudo mkdir -p /etc/lxc
