@@ -38,17 +38,18 @@ EOF
 ```
 ### 5. NTP
 ```
-sudo tee /etc/systemd/system/timesyncd-force.service << EOF
+sudo apt install ntpsec-ntpdate
+
+sudo tee /etc/systemd/system/timesyncd-force.service > /dev/null << 'EOF'
 [Unit]
-Description=Force systemd-timesyncd to sync time
+Description=Force system time synchronization
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/timedatectl set-ntp false
-ExecStartPost=/usr/bin/timedatectl set-ntp true
+ExecStart=/usr/bin/ntpdate -u pool.ntp.org
 EOF
 
-sudo tee /etc/systemd/system/timesyncd-force.timer << EOF
+sudo tee /etc/systemd/system/timesyncd-force.timer > /dev/null << 'EOF'
 [Unit]
 Description=Run timesyncd-force every minute
 
